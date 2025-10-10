@@ -1,0 +1,8 @@
+server:
+  port: 8083
+  forward-headers-strategy: framework
+
+logging:
+  level:
+    ru.calorai: INFO
+    org.springframework: INFO
