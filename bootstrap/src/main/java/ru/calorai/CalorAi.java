@@ -5,13 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 /**
- * Главный класс приложения CalorAI Config Module
+ * Главный класс приложения CalorAI Module
  */
 @SpringBootApplication
 @ConfigurationPropertiesScan
-public class Main {
+public class CalorAi {
     
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        SpringApplication.run(CalorAi.class, args);
     }
 }

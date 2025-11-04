@@ -3,17 +3,17 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":backend"))
 
-    // Spring Security
-    implementation(libs.spring.boot.security)
-    implementation(libs.spring.security.oauth2.client)
-    implementation(libs.spring.security.oauth2.jose)
-
     // Spring Boot
+    implementation(libs.spring.boot.security)
     implementation(libs.spring.boot.web)
     implementation(libs.spring.boot.validation)
+
+    implementation(libs.spring.boot.jpa)
+    implementation(libs.spring.boot.jdbc)
 
     // Swagger
     implementation(libs.springdoc.openapi)
@@ -28,6 +28,10 @@ dependencies {
     // MapStruct
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
+
+    // Location-tech
+    implementation(libs.locationtech.jts.core)
+    implementation(libs.locationtech.jts.common)
 
     // Commons
     implementation(libs.commons.io)

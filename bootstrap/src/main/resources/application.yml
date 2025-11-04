@@ -1,0 +1,77 @@
+spring:
+  application:
+    name: calorai
+    version: 1.0.0
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 43423895219-p03jmjrqnkvatav947pj49kctl32gmg1.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, email, profile
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/calorai
+    username: postgres
+    password: superuser
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+
+  mvc:
+    cors:
+      allowed-origins:
+        - http://localhost:8080
+      allowed-methods: [ GET, POST, PUT, DELETE, OPTIONS ]
+      allowed-headers: [ Authorization, Content-Type, X-Requested-With ]
+      allow-credentials: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,loggers
+
+server:
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: INFO
+    ru.unosoft: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: WARN
+    org.geolatte.geom.crs.CrsRegistry: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE    # параметры запросов (бинды)
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+jwt:
+  access:
+    cookieName:
+    expirationMs: 60000
+  cookieName: geous-jwt
+  jwtRefreshCookieName: geous-jwt-refresh
+  jwtExpirationMs: 120000                   # 2 минуты = 120000 мс
+  jwtRefreshExpirationMs: 2592000000        # 1 месяц
+  access-token-secret: ebduebfyefvrewufjfddfjewtudsfksdjflsdfjsldfjsldfv
+  refresh-token-secret: iweucbewuafaspepepcncxkkaseiuanasldjasbreo
+  refresh-token-expiration-days: 30
+  access-token-expiration-minutes: 2
+  issuer: "CALORAI"

@@ -1,13 +1,14 @@
-package ru.calorai.entity;
+package ru.calorai.user.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
 
-    public User() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +20,10 @@ public class User {
     private String phone;
     private String passwordHash ;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private OffsetDateTime createdAt;
 
     @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
+    private OffsetDateTime lastLoginAt;
 }
