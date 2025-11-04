@@ -2,9 +2,7 @@ spring:
   application:
     name: calorai
     version: 1.0.0
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+
   security:
     oauth2:
       client:
@@ -51,8 +49,6 @@ management:
       exposure:
         include: health,info,loggers
 
-
-
 server:
   servlet:
     context-path: /api
@@ -63,16 +59,14 @@ app:
 
 logging:
   level:
-    org.springframework.security.web.FilterChainProxy: DEBUG
     root: INFO
     ru.unosoft: DEBUG
     org.springframework.web: INFO
-    org.springframework.security: DEBUG
+    org.springframework.security: WARN
     org.geolatte.geom.crs.CrsRegistry: WARN
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE    # параметры запросов (бинды)
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
 
 jwt:
   access:
