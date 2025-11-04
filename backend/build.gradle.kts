@@ -10,9 +10,6 @@ dependencies {
     // JDBC driver
     implementation(libs.postgresql.driver)
 
-    // Location-tech
-    implementation(libs.locationtech.jts.core)
-
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)

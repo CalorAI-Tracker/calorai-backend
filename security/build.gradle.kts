@@ -4,16 +4,16 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":backend"))
 
     // Spring Security
     implementation(libs.spring.boot.security)
     implementation(libs.spring.security.oauth2.client)
-    implementation(libs.spring.security.oauth2.jose)
+//    implementation(libs.spring.security.oauth2.jose)
 
-    // Spring Boot
+    // Spring
     implementation(libs.spring.boot.web)
     implementation(libs.spring.boot.validation)
+    implementation(libs.spring.boot.jpa)
 
     // Swagger
     implementation(libs.springdoc.openapi)

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
  * Главный класс приложения CalorAI Module
  */
 @SpringBootApplication
-@ConfigurationPropertiesScan
+@ConfigurationPropertiesScan("ru.calorai")
 public class CalorAi {
     
     public static void main(String[] args) {
