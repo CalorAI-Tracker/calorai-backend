@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.calorai.dailyNutririon.port.in.FindDailyNutritionApi;
 import ru.calorai.dailyNutrition.dto.DailyNutritionDTO;
 import ru.calorai.dailyNutrition.mapper.DailyNutritionDtoMapper;
@@ -17,6 +14,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/daily-nutrition")
 public class DailyNutritionRestController {
 
     private final FindDailyNutritionApi findDailyNutritionApi;
@@ -26,7 +24,7 @@ public class DailyNutritionRestController {
             summary = "Получить КБЖУ на дату",
             description = "Возвращает план, факт, остаток и проценты выполнения"
     )
-    @GetMapping("/daily")
+    @GetMapping
     public ResponseEntity<DailyNutritionDTO> getDaily(
             @PathVariable("userId") Long userId,
             @Parameter(description = "Дата в формате ISO", example = "2025-11-05")

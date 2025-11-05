@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.common.util.CheckUserExist;
+import ru.calorai.dailyNutririon.port.in.RecalcTodayTargetsApi;
 import ru.calorai.profile.exception.UserHealthProfileAlreadyExistException;
 import ru.calorai.profile.model.UserHealthProfile;
 import ru.calorai.profile.port.in.CreateUserHealthProfileApi;
@@ -17,6 +18,8 @@ public class CreateUserHealthProfileUseCase implements CreateUserHealthProfileAp
 
     private final CreateUserHealthProfileSpi createUserHealthProfileSpi;
     private final FindUserHealthProfileSpi findUserHealthProfileSpi;
+
+    private final RecalcTodayTargetsApi recalcTodayTargetsApi;
 
     private final CheckUserExist checkUserExist;
 
@@ -33,7 +36,10 @@ public class CreateUserHealthProfileUseCase implements CreateUserHealthProfileAp
                 });
 
         // 3. Создаем профиль и возвращаем ID
-        UserHealthProfile createdProfile = createUserHealthProfileSpi.createUserProfile(userHealthProfile);
-        return createdProfile.getId();
+        UserHealthProfile created = createUserHealthProfileSpi.createUserProfile(userHealthProfile);
+
+        // 4. Пересчёт дневных целей на сегодня
+        recalcTodayTargetsApi.recalcForToday(created.getUserId());
+        return created.getId();
     }
 }
