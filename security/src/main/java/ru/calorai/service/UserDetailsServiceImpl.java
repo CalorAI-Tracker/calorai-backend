@@ -6,7 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.calorai.model.UserDetailsImpl;
-import ru.calorai.repository.UserRepository;
+import ru.calorai.user.jpa.entity.UserEntity;
+import ru.calorai.user.jpa.repository.UserRepository;
 
 
 @Service
@@ -17,13 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = users.findByEmail(email)
+        UserEntity user = users.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         return UserDetailsImpl.fromEntity(user);
     }
 
     public UserDetails loadUserById(Long id) {
-        var user = users.findById(id)
+        UserEntity user = users.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
         return UserDetailsImpl.fromEntity(user);
     }

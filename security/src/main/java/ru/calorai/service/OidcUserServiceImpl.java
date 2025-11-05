@@ -10,11 +10,11 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import ru.calorai.model.AuthProvider;
-import ru.calorai.model.RoleEntity;
-import ru.calorai.model.UserEntity;
-import ru.calorai.repository.RoleRepository;
-import ru.calorai.repository.UserRepository;
-import ru.calorai.users.ERole;
+import ru.calorai.user.jpa.entity.RoleEntity;
+import ru.calorai.user.jpa.entity.UserEntity;
+import ru.calorai.user.jpa.repository.RoleRepository;
+import ru.calorai.user.jpa.repository.UserRepository;
+import ru.calorai.profile.enums.ERole;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;

@@ -8,16 +8,14 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import ru.calorai.jwToken.JwtProperties;
-import ru.calorai.model.UserEntity;
-import ru.calorai.repository.UserRepository;
 import ru.calorai.service.JwtService;
 import ru.calorai.service.RefreshTokenService;
+import ru.calorai.user.jpa.entity.UserEntity;
+import ru.calorai.user.jpa.repository.UserRepository;
 
 import java.io.IOException;
 import java.util.Map;

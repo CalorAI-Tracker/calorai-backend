@@ -1,4 +1,4 @@
-package ru.calorai.model;
+package ru.calorai.user.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,6 +20,8 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
 
     @Column(nullable = false, length = 100, unique = true)
     private String email;

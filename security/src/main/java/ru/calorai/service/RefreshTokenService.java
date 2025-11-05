@@ -7,14 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import ru.calorai.jwToken.TokenHasher;
 import ru.calorai.model.RefreshTokenEntity;
-import ru.calorai.model.UserEntity;
 import ru.calorai.repository.RefreshTokenRepository;
-import ru.calorai.repository.UserRepository;
+import ru.calorai.user.jpa.entity.UserEntity;
+import ru.calorai.user.jpa.repository.UserRepository;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;

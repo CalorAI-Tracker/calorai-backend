@@ -2,6 +2,7 @@ package ru.calorai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.calorai.user.jpa.entity.UserEntity;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;

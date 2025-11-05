@@ -1,6 +1,10 @@
 package ru.calorai.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -8,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,12 +27,13 @@ import ru.calorai.dto.request.SignUpRequest;
 import ru.calorai.dto.response.TokenResponse;
 import ru.calorai.jwToken.JwtProperties;
 import ru.calorai.model.AuthProvider;
-import ru.calorai.model.UserEntity;
-import ru.calorai.repository.RoleRepository;
-import ru.calorai.repository.UserRepository;
 import ru.calorai.service.JwtService;
 import ru.calorai.service.RefreshTokenService;
-import ru.calorai.users.ERole;
+import ru.calorai.user.jpa.entity.UserEntity;
+import ru.calorai.user.jpa.repository.RoleRepository;
+import ru.calorai.user.jpa.repository.UserRepository;
+import ru.calorai.profile.enums.ERole;
+import ru.calorai.users.exception.EmailAlreadyTakenException;
 
 import java.util.Collection;
 import java.util.Map;
@@ -39,27 +45,26 @@ import java.util.stream.Collectors;
 @Tag(name = "Аутентификация", description = "Вход, обновление и отзыв JWT токенов")
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    @Autowired AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtProperties jwtProperties;
+    @Autowired JwtService jwt;
 
-    @Autowired
-    JwtService jwt;
+    @Autowired JwtProperties jwtProperties;
+    @Autowired RefreshTokenService refreshTokens;
 
-    @Autowired
-    RefreshTokenService refreshTokens;
+    @Autowired UserRepository users;
+    @Autowired RoleRepository roles;
 
-    @Autowired
-    UserRepository users;
+    @Autowired PasswordEncoder passwordEncoder;
 
-    @Autowired
-    RoleRepository roles;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
+    @Operation(
+            summary = "Вход в систему",
+            description = "Аутентификация пользователя по email и паролю, возвращает access и refresh токены")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Успешная аутентификация",
+            content = @Content(schema = @Schema(implementation = TokenResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Неверные учетные данные"),
+            @ApiResponse(responseCode = "400", description = "Невалидные данные запроса")
+    })
     @PostMapping("/login")
     public TokenResponse login(@RequestBody @Valid LoginRequest req,
                                HttpServletRequest http) {
@@ -88,8 +93,15 @@ public class AuthController {
         return new TokenResponse(access, refresh, "Bearer", expiresIn);
     }
 
+    @Operation(
+            summary = "Обновление токенов",
+            description = "Обновление access токена с помощью refresh токена")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Токены успешно обновлены",
+            content = @Content(schema = @Schema(implementation = TokenResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Невалидный refresh токен")
+    })
     @PostMapping("/refresh")
-    public Map<String, String> refresh(@RequestBody Map<String, String> body) {
+    public TokenResponse refresh(@RequestBody Map<String, String> body) {
         String refresh = body.get("refreshToken");
         if (!jwt.validateRefreshToken(refresh)) {
             throw new BadCredentialsException("invalid refresh");
@@ -107,19 +119,27 @@ public class AuthController {
                     return jwt.generateAccessToken(email, userId, auths);
                 }
         );
-        return Map.of(
-                "accessToken", pair.getFirst(),
-                "refreshToken", pair.getSecond(),
-                "tokenType", "Bearer"
+        return new TokenResponse(
+                pair.getFirst(),
+                 pair.getSecond(),
+                "Bearer",
+                0L
         );
     }
 
+    @Operation(
+            summary = "Регистрация пользователя",
+            description = "Создание нового пользователя с email и паролем")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Пользователь успешно зарегистрирован",
+                    content = @Content(schema = @Schema(implementation = SignUpRequest.class))),
+            @ApiResponse(responseCode = "400", description = "Невалидные данные запроса")
+    })
     @PostMapping("/signup")
-    @Operation(summary = "Регистрация локального пользователя (email+пароль)")
     public ResponseEntity<?> register(@RequestBody @Valid SignUpRequest req) {
 
         if (users.findByEmail(req.email()).isPresent()) {
-            return ResponseEntity.status(409).body(Map.of("error", "EMAIL_TAKEN"));
+            throw new EmailAlreadyTakenException();
         }
 
         var user = UserEntity.builder()
@@ -143,6 +163,10 @@ public class AuthController {
         ));
     }
 
+    @Operation(summary = "Выход из системы", description = "Отзыв refresh токена")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Успешный выход"),
+            @ApiResponse(responseCode = "400", description = "Невалидный токен")})
     @PostMapping("/logout")
     public void logout(@RequestBody Map<String, String> body) {
         String refresh = body.getOrDefault("refreshToken", "");
@@ -151,10 +175,23 @@ public class AuthController {
         }
     }
 
-//    @PostMapping("/logout-all")
-//    @PreAuthorize("isAuthenticated()")
-//    public void logoutAll(Authentication auth) {
-//        users.findByEmail(auth.getName())
-//                .ifPresent(u -> refreshTokens.revokeAllForUser(u.getId()));
-//    }
+    /*
+    @Operation(
+        summary = "Выход со всех устройств",
+        description = "Отзыв всех refresh токенов пользователя"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Успешный выход со всех устройств"),
+        @ApiResponse(responseCode = "401", description = "Пользователь не аутентифицирован")
+    })
+    @PostMapping("/logout-all")
+    @PreAuthorize("isAuthenticated()")
+    public void logoutAll(
+            @Parameter(description = "Аутентификация пользователя", hidden = true)
+            Authentication auth) {
+
+        users.findByEmail(auth.getName())
+                .ifPresent(u -> refreshTokens.revokeAllForUser(u.getId()));
+    }
+    */
 }
