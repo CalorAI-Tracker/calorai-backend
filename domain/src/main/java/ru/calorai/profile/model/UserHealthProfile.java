@@ -22,6 +22,6 @@ public class UserHealthProfile {
 
     private LocalDate birthDay;
 
-    private Integer activityId;
-    private Integer goalId;
+    private HealthGoal healthGoal;
+    private ActivityLevel activityLevel;
 }

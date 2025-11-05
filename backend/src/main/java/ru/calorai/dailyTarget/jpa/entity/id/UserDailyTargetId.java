@@ -1,4 +1,4 @@
-package ru.calorai.dailyTarget.jpa.entity;
+package ru.calorai.dailyTarget.jpa.entity.id;
 
 import lombok.*;
 

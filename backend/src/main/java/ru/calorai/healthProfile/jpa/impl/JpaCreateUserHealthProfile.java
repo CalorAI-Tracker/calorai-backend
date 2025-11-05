@@ -13,6 +13,7 @@ import ru.calorai.profile.port.out.CreateUserHealthProfileSpi;
 public class JpaCreateUserHealthProfile implements CreateUserHealthProfileSpi {
 
     private final UserHealthProfileRepository userHealthProfileRepository;
+
     private final UserRepository userRepository;
 
     private final UserHealthProfileEntityMapper userHealthProfileEntityMapper;

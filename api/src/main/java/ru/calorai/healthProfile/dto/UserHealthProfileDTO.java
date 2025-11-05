@@ -16,6 +16,6 @@ public record UserHealthProfileDTO(
         @JsonFormat(pattern = "dd.MM.yyyy", locale = "ru_RU")
         LocalDate birthDay,
 
-        @NotNull Integer activityId,
-        @NotNull Integer goalId
+        @NotNull String activityCode,
+        @NotNull String healthGoalCode
 ) {}

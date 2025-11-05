@@ -2,7 +2,9 @@ package ru.calorai.dailyTarget.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.calorai.dailyTarget.jpa.entity.id.UserDailyTargetId;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -27,13 +29,13 @@ public class UserDailyTargetEntity {
     private Integer kcalTarget;
 
     @Column(name = "protein_g_target", precision = 6, scale = 2)
-    private Long proteinGTarget;
+    private BigDecimal proteinGTarget;
 
     @Column(name = "fat_g_target", precision = 6, scale = 2)
-    private Long fatGTarget;
+    private BigDecimal fatGTarget;
 
     @Column(name = "carbs_g_target", precision = 6, scale = 2)
-    private Long carbsGTarget;
+    private BigDecimal carbsGTarget;
 
     @Column(name = "source")
     private String source;

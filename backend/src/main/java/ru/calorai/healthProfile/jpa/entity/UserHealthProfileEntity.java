@@ -36,11 +36,13 @@ public class UserHealthProfileEntity {
     @Column(name = "birth_date")
     private LocalDate birthDay;
 
-    @Column(name = "health_goal_id")
-    private Long healthGoalId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "health_goal_id", nullable = false)
+    private HealthGoalEntity healthGoal;
 
-    @Column(name = "activity_level_id")
-    private Long activityLevelId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_level_id", nullable = false)
+    private ActivityLevelEntity activityLevel;
 
     @Column(name = "target_weight_kg")
     private Long targetWeightKg;

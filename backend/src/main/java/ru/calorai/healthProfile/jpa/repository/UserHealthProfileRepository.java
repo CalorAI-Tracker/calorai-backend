@@ -7,6 +7,6 @@ import ru.calorai.healthProfile.jpa.entity.UserHealthProfileEntity;
 import java.util.Optional;
 
 public interface UserHealthProfileRepository extends JpaRepository<UserHealthProfileEntity, Long> {
-    @EntityGraph(attributePaths = "user")
+    @EntityGraph(attributePaths = {"user", "healthGoal", "activityLevel"})
     Optional<UserHealthProfileEntity> findByUserId(Long userId);
 }
