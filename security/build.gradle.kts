@@ -1,24 +1,34 @@
 plugins {
-    `java-library`
-    id("io.spring.dependency-management")
+    id("java")
 }
 
 dependencies {
-    // BOM как в твоём parent (3.5.3)
-    api(platform("org.springframework.boot:spring-boot-dependencies:3.5.3"))
+    implementation(project(":domain"))
+    implementation(project(":backend"))
 
-    // из твоего pom
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    // Spring Security
+    implementation(libs.spring.boot.security)
+    implementation(libs.spring.security.oauth2.client)
 
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+    // Spring
+    implementation(libs.spring.boot.web)
+    implementation(libs.spring.boot.validation)
+    implementation(libs.spring.boot.jpa)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
+    // Swagger
+    implementation(libs.springdoc.openapi)
+
+    // JWT
+    implementation(libs.auth0.jwt)
+
+    // Lombok
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    // MapStruct
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
+
+    // Commons
+    implementation(libs.commons.io)
 }
-
-// обычный jar (bootJar здесь не нужен)
-tasks.named<Jar>("jar") { enabled = true }

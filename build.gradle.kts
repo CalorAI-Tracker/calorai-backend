@@ -1,27 +1,37 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
-    id("org.springframework.boot") version "3.5.3" apply false
-    id("io.spring.dependency-management") version "1.1.6" apply false
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.dependency.management)
+    id("java")
 }
 
-val javaVersion = 22
+group = "ru.calorai"
+version = "2.0.1"
 
 allprojects {
-    group = "ru.calorai"
-    version = "1.0-SNAPSHOT"
-
-    repositories { mavenCentral() }
-}
-
-subprojects {
     apply(plugin = "java")
     apply(plugin = "io.spring.dependency-management")
 
-    extensions.configure<JavaPluginExtension> {
+    group = rootProject.group
+    version = rootProject.version
+
+    java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion))
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+
+        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
     }
 
-    tasks.withType<Test> { useJUnitPlatform() }
+    tasks.withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
 }
-
