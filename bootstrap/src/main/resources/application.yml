@@ -67,15 +67,9 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 jwt:
-  access:
-    cookieName:
-    expirationMs: 60000
-  cookieName: geous-jwt
-  jwtRefreshCookieName: geous-jwt-refresh
-  jwtExpirationMs: 120000                   # 2 минуты = 120000 мс
   jwtRefreshExpirationMs: 2592000000        # 1 месяц
   access-token-secret: ebduebfyefvrewufjfddfjewtudsfksdjflsdfjsldfjsldfv
   refresh-token-secret: iweucbewuafaspepepcncxkkaseiuanasldjasbreo
   refresh-token-expiration-days: 30
-  access-token-expiration-minutes: 2
+  access-token-expiration-minutes: 60
   issuer: "CALORAI"
