@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.calorai.healthProfile.jpa.mapper.UserHealthProfileEntityMapper;
 import ru.calorai.healthProfile.jpa.repository.UserHealthProfileRepository;
-import ru.calorai.profile.model.UserHealthProfile;
+import ru.calorai.heathProfile.model.UserHealthProfile;
 import ru.calorai.user.jpa.repository.UserRepository;
-import ru.calorai.profile.port.out.CreateUserHealthProfileSpi;
+import ru.calorai.heathProfile.port.out.CreateUserHealthProfileSpi;
 
 @Component
 @RequiredArgsConstructor

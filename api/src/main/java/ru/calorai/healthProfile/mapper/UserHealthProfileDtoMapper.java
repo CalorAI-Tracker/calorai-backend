@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.calorai.healthProfile.dto.UserHealthProfileDTO;
 import ru.calorai.healthProfile.dto.request.CreateUserHealthProfileRequest;
-import ru.calorai.profile.model.UserHealthProfile;
+import ru.calorai.heathProfile.model.UserHealthProfile;
 
 @Mapper(componentModel = "spring")
 public interface UserHealthProfileDtoMapper {

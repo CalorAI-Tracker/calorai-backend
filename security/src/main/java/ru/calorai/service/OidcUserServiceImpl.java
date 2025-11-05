@@ -14,7 +14,7 @@ import ru.calorai.user.jpa.entity.RoleEntity;
 import ru.calorai.user.jpa.entity.UserEntity;
 import ru.calorai.user.jpa.repository.RoleRepository;
 import ru.calorai.user.jpa.repository.UserRepository;
-import ru.calorai.profile.enums.ERole;
+import ru.calorai.heathProfile.enums.ERole;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;

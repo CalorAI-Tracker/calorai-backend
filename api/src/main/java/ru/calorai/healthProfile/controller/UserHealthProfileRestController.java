@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.calorai.healthProfile.dto.UserHealthProfileDTO;
 import ru.calorai.healthProfile.dto.request.CreateUserHealthProfileRequest;
 import ru.calorai.healthProfile.mapper.UserHealthProfileDtoMapper;
-import ru.calorai.profile.port.in.CreateUserHealthProfileApi;
-import ru.calorai.profile.port.in.FindUserHealthProfileApi;
+import ru.calorai.heathProfile.port.in.CreateUserHealthProfileApi;
+import ru.calorai.heathProfile.port.in.FindUserHealthProfileApi;
 
 @RestController
 @RequestMapping("/user-profile")

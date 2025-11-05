@@ -6,7 +6,7 @@ import org.mapstruct.Mappings;
 import ru.calorai.healthProfile.jpa.entity.ActivityLevelEntity;
 import ru.calorai.healthProfile.jpa.entity.HealthGoalEntity;
 import ru.calorai.healthProfile.jpa.entity.UserHealthProfileEntity;
-import ru.calorai.profile.model.UserHealthProfile;
+import ru.calorai.heathProfile.model.UserHealthProfile;
 import ru.calorai.user.jpa.entity.UserEntity;
 
 @Mapper(componentModel = "spring")

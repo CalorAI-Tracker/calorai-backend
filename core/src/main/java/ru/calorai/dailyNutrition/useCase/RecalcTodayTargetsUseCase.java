@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.dailyNutririon.model.UserDailyTarget;
 import ru.calorai.dailyNutririon.port.in.RecalcTodayTargetsApi;
 import ru.calorai.dailyNutririon.port.out.UpsertUserDailyTargetsSpi;
-import ru.calorai.profile.enums.ESex;
-import ru.calorai.profile.port.in.FindUserHealthProfileApi;
+import ru.calorai.heathProfile.enums.ESex;
+import ru.calorai.heathProfile.port.in.FindUserHealthProfileApi;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

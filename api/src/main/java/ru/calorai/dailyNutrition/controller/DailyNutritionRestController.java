@@ -24,7 +24,7 @@ public class DailyNutritionRestController {
             summary = "Получить КБЖУ на дату",
             description = "Возвращает план, факт, остаток и проценты выполнения"
     )
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<DailyNutritionDTO> getDaily(
             @PathVariable("userId") Long userId,
             @Parameter(description = "Дата в формате ISO", example = "2025-11-05")

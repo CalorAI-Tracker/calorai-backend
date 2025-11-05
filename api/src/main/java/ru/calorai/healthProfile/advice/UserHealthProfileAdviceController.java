@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.calorai.common.model.ErrorPresentation;
-import ru.calorai.profile.exception.UserHealthProfileAlreadyExistException;
-import ru.calorai.profile.exception.UserHealthProfileNotFoundException;
+import ru.calorai.heathProfile.exception.UserHealthProfileAlreadyExistException;
+import ru.calorai.heathProfile.exception.UserHealthProfileNotFoundException;
 
 import java.util.Date;
 
