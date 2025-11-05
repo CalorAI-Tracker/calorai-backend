@@ -4,18 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -23,8 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.calorai.filter.JwtAuthFilter;
 import ru.calorai.handler.OAuth2SuccessHandler;
-import ru.calorai.service.OAuth2UserService;
-import ru.calorai.service.UserDetailsServiceImpl;
+import ru.calorai.service.OidcUserServiceImpl;
 
 import java.util.List;
 
@@ -39,9 +32,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final AuthBeans authBeans;
-    private final OAuth2UserService oAuth2UserService;
+    private final AuthenticationBean authenticationBean;
+
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OidcUserServiceImpl oidcUserService;
+
     private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
@@ -53,21 +48,18 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(
-                                "/auth/**",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/actuator/health"
+                                "/oauth2/**", "/login/oauth2/**", "/auth/**",
+                                "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(authBeans.daoAuthProvider())
+                .authenticationProvider(authenticationBean.daoAuthProvider())
 
                 .oauth2Login(o -> o
-                        .userInfoEndpoint(u -> u.userService(oAuth2UserService))
+                        .userInfoEndpoint(ui -> ui.oidcUserService(oidcUserService))
                         .successHandler(oAuth2SuccessHandler)
                 )
-
                 .build();
     }
 

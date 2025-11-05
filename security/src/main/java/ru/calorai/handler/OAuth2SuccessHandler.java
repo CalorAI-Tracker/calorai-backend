@@ -9,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import ru.calorai.jwToken.JwtProperties;
+import ru.calorai.model.UserEntity;
+import ru.calorai.repository.UserRepository;
 import ru.calorai.service.JwtService;
 import ru.calorai.service.RefreshTokenService;
 
@@ -29,6 +32,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     @Lazy
     private final RefreshTokenService refreshTokenService;
 
+    private final UserRepository userRepository;
+
     private final ObjectMapper objectMapper;
 
     @Override
@@ -36,13 +41,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+        OidcUser principal = (OidcUser) authentication.getPrincipal();
 
-        String email = oauth2User.getAttribute("email");
-        Long userId  = oauth2User.getAttribute("userId");
+        String email = principal.getEmail();
+        // достанем id пользователя из БД (не полагаемся на «добавленные» атрибуты)
+        UserEntity user = userRepository.findByEmail(email).orElseThrow();
+        Long userId = user.getId();
+
         var authorities = authentication.getAuthorities();
 
-        // access как и раньше
         String accessToken = jwtService.generateAccessToken(email, userId, authorities);
 
         String refreshToken = refreshTokenService.issue(

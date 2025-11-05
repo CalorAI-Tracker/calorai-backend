@@ -12,7 +12,7 @@ import ru.calorai.service.UserDetailsServiceImpl;
 
 @Configuration
 @RequiredArgsConstructor
-public class AuthBeans {
+public class AuthenticationBean {
 
     private final UserDetailsServiceImpl userDetailsService;
 

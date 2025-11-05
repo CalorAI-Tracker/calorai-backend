@@ -1,14 +1,13 @@
 package ru.calorai.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import ru.calorai.model.AuthProvider;
 import ru.calorai.model.RoleEntity;
@@ -18,41 +17,48 @@ import ru.calorai.repository.UserRepository;
 import ru.calorai.users.ERole;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
-public class OAuth2UserService extends DefaultOAuth2UserService {
+public class OidcUserServiceImpl extends OidcUserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oauth2User = super.loadUser(userRequest);
+    public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
+        // загрузим OIDC-пользователя (с проверенным id_token)
+        OidcUser oidcUser = super.loadUser(userRequest);
 
         try {
-            return processOAuth2User(oauth2User);
+            return processOidcUser(oidcUser);
         } catch (Exception ex) {
-            throw new OAuth2AuthenticationException("OAuth2 login failed");
+            throw new OAuth2AuthenticationException("OIDC login failed");
         }
     }
 
-    private OAuth2User processOAuth2User(OAuth2User oauth2User) {
-        String sub = oauth2User.getAttribute("sub");
-        String email = oauth2User.getAttribute("email");
+    private OidcUser processOidcUser(OidcUser oidcUser) {
+        String sub = oidcUser.getSubject();     // стабильный ID у провайдера
+        String email = oidcUser.getEmail();     // email из id_token/userinfo
 
         if (email == null || email.isBlank()) {
-            throw new OAuth2AuthenticationException("Email not provided by OAuth2 provider");
+            throw new OAuth2AuthenticationException("Email not provided by OIDC provider");
         }
 
         UserEntity user = userRepository.findByEmail(email)
-                .map(existingUser -> updateExistingUser(existingUser, sub))
+                .map(u -> updateExistingUser(u, sub))
                 .orElseGet(() -> createNewUser(email, sub));
 
-        return createSpringSecurityUser(user, oauth2User);
+        // authorities из ролей пользователя
+        Collection<? extends GrantedAuthority> authorities = mapAuthorities(user.getRoles());
+
+        // возвращаем OidcUser (атрибуты – это claims id_token + userinfo)
+        // nameAttributeKey пусть будет "email" — тогда getName() вернёт email
+        return new DefaultOidcUser(authorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), "email");
     }
 
     private UserEntity updateExistingUser(UserEntity u, String sub) {
@@ -76,28 +82,15 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                 .roles(new HashSet<>())
                 .build();
 
-        // Добавляем дефолтную роль USER
         roleRepository.findByName(ERole.USER.name())
                 .ifPresent(role -> newUser.getRoles().add(role));
 
         return userRepository.save(newUser);
     }
 
-    private OAuth2User createSpringSecurityUser(UserEntity user, OAuth2User oauth2User) {
-        Map<String, Object> attributes = new HashMap<>(oauth2User.getAttributes());
-        attributes.put("userId", user.getId());
-        attributes.put("email", user.getEmail());
-
-        return new DefaultOAuth2User(
-                getAuthorities(user.getRoles()),
-                attributes,
-                "email"
-        );
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities(Set<RoleEntity> roles) {
+    private Collection<? extends GrantedAuthority> mapAuthorities(Set<RoleEntity> roles) {
         return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                 .collect(Collectors.toList());
     }
 }

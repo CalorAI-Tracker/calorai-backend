@@ -5,12 +5,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.calorai.model.AuthProvider;
 import ru.calorai.model.UserDetailsImpl;
-import ru.calorai.model.UserEntity;
 import ru.calorai.repository.UserRepository;
 
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
