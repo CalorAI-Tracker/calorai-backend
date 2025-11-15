@@ -44,14 +44,15 @@ public class OidcUserServiceImpl extends OidcUserService {
     private OidcUser processOidcUser(OidcUser oidcUser) {
         String sub = oidcUser.getSubject();     // стабильный ID у провайдера
         String email = oidcUser.getEmail();     // email из id_token/userinfo
+        String name = oidcUser.getName();     // name
 
         if (email == null || email.isBlank()) {
             throw new OAuth2AuthenticationException("Email not provided by OIDC provider");
         }
 
         UserEntity user = userRepository.findByEmail(email)
-                .map(u -> updateExistingUser(u, sub))
-                .orElseGet(() -> createNewUser(email, sub));
+                .map(u -> updateExistingUser(u, sub, name))
+                .orElseGet(() -> createNewUser(email, sub, name));
 
         // authorities из ролей пользователя
         Collection<? extends GrantedAuthority> authorities = mapAuthorities(user.getRoles());
@@ -61,18 +62,24 @@ public class OidcUserServiceImpl extends OidcUserService {
         return new DefaultOidcUser(authorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), "email");
     }
 
-    private UserEntity updateExistingUser(UserEntity u, String sub) {
+    private UserEntity updateExistingUser(UserEntity u, String sub, String name) {
         if (u.getProviderId() == null) {
             u.setProviderId(sub);
             u.setAuthProvider(AuthProvider.GOOGLE.name());
         }
+
+        if (name != null && (u.getName() == null || u.getName().isBlank())) {
+            u.setName(name);
+        }
+
         u.setLastLoginAt(OffsetDateTime.now());
         return userRepository.save(u);
     }
 
-    private UserEntity createNewUser(String email, String providerSub) {
+    private UserEntity createNewUser(String email, String providerSub, String name) {
         UserEntity newUser = UserEntity.builder()
                 .email(email)
+                .name(name != null ? name : "Unknown")
                 .providerId(providerSub)
                 .authProvider(AuthProvider.GOOGLE.name())
                 .emailVerified(true)
