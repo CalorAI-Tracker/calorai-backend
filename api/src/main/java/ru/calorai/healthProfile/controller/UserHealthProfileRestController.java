@@ -15,9 +15,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.calorai.healthProfile.dto.UserHealthProfileDTO;
 import ru.calorai.healthProfile.dto.request.CreateUserHealthProfileRequest;
+import ru.calorai.healthProfile.dto.request.UpdateUserHealthProfileRequest;
 import ru.calorai.healthProfile.mapper.UserHealthProfileDtoMapper;
+import ru.calorai.heathProfile.model.UserHealthProfile;
 import ru.calorai.heathProfile.port.in.CreateUserHealthProfileApi;
 import ru.calorai.heathProfile.port.in.FindUserHealthProfileApi;
+import ru.calorai.heathProfile.port.in.UpdateUserHealthProfileApi;
 
 @RestController
 @RequestMapping("/user-profile")
@@ -28,6 +31,7 @@ public class UserHealthProfileRestController {
 
     private final CreateUserHealthProfileApi createUserHealthProfileApi;
     private final FindUserHealthProfileApi findUserHealthProfileApi;
+    private final UpdateUserHealthProfileApi updateUserHealthProfileApi;
 
     private final UserHealthProfileDtoMapper userHealthProfileDtoMapper;
 
@@ -68,5 +72,30 @@ public class UserHealthProfileRestController {
         return ResponseEntity.ok().body(
                 userHealthProfileDtoMapper.toDto(findUserHealthProfileApi.findUserProfileByUserId(userId))
         );
+    }
+
+    @Operation(
+            summary = "Обновить профиль пользователя",
+            description = "Обновляет данные профиля пользователя по его ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Профиль успешно обновлён",
+                    content = @Content(schema = @Schema(implementation = UserHealthProfileDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные запроса", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Профиль не найден", content = @Content),
+    })
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<UserHealthProfileDTO> updateUserProfile(
+            @Parameter(description = "ID пользователя", required = true)
+            @PathVariable("userId") Long userId,
+            @Parameter(description = "Новые данные профиля", required = true)
+            @Valid @RequestBody UpdateUserHealthProfileRequest request
+    ) {
+        UserHealthProfile updatedProfile = updateUserHealthProfileApi.updateUserHealthProfile(
+                userId,
+                userHealthProfileDtoMapper.toDomain(request)
+        );
+        UserHealthProfileDTO dto = userHealthProfileDtoMapper.toDto(updatedProfile);
+        return ResponseEntity.ok(dto);
     }
 }
