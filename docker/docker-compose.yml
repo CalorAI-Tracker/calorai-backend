@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: calorai-db
+    environment:
+      POSTGRES_DB: calorai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: superuser
+    ports:
+      - "5432:5432"
+    volumes:
+      - calorai_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: calorai-app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/calorai
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: superuser
+    ports:
+      - "8080:8080"
+
+volumes:
+  calorai_data:

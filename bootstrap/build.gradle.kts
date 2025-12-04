@@ -10,5 +10,6 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(libs.spring.boot.starter)
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation(libs.flyway)
+    implementation(libs.flyway.postgresql)
 }
