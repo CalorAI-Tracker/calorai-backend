@@ -11,7 +11,7 @@ spring:
             client-id: 43423895219-p03jmjrqnkvatav947pj49kctl32gmg1.apps.googleusercontent.com
             client-secret: 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
             scope: openid, email, profile
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 
   datasource:
     url: jdbc:postgresql://localhost:5432/calorai
@@ -58,11 +58,11 @@ app:
 logging:
   level:
     root: INFO
-    ru.unosoft: DEBUG
+    ru.unosoft: WARN
     org.springframework.web: INFO
     org.springframework.security: WARN
     org.geolatte.geom.crs.CrsRegistry: WARN
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: WARN
     org.hibernate.orm.jdbc.bind: TRACE    # параметры запросов (бинды)
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
