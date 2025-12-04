@@ -1,30 +1,34 @@
 package ru.calorai.healthProfile.jpa.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import ru.calorai.healthProfile.jpa.entity.ActivityLevelEntity;
 import ru.calorai.healthProfile.jpa.entity.HealthGoalEntity;
-import ru.calorai.healthProfile.jpa.entity.UserHealthProfileEntity;
-import ru.calorai.heathProfile.model.UserHealthProfile;
+import ru.calorai.healthProfile.jpa.entity.UserProfileEntity;
+import ru.calorai.heathProfile.model.UserProfile;
 import ru.calorai.user.jpa.entity.UserEntity;
 
 @Mapper(componentModel = "spring")
-public interface UserHealthProfileEntityMapper {
+public interface UserProfileEntityMapper {
 
     @Mappings({
             @Mapping(target = "user", expression = "java(refUser(d.getUserId()))"),
             @Mapping(target = "activityLevel", expression = "java(refActivityLevel(d.getActivityLevel().getId()))"),
             @Mapping(target = "healthGoal", expression = "java(refHealthGoal(d.getHealthGoal().getId()))")
     })
-    UserHealthProfileEntity toUserProfileEntity(UserHealthProfile d);
+    UserProfileEntity toUserProfileEntity(UserProfile d);
 
     @Mappings({
-            @Mapping(target = "userId",          source = "user.id"),
-            @Mapping(target = "activityLevel", source = "activityLevel"),
-            @Mapping(target = "healthGoal",    source = "healthGoal")
+            @Mapping(target = "email",          source = "user.email"),
+            @Mapping(target = "userId",         source = "user.id"),
+            @Mapping(target = "name",           source = "user.name"),
+            @Mapping(target = "activityLevel",  source = "activityLevel"),
+            @Mapping(target = "healthGoal",     source = "healthGoal")
     })
-    UserHealthProfile toUserProfile(UserHealthProfileEntity e);
+    UserProfile toUserProfile(UserProfileEntity e);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromDomain(UserProfile source,
+                                @MappingTarget UserProfileEntity target);
 
     default UserEntity refUser(Long id) {
         if (id == null) return null;

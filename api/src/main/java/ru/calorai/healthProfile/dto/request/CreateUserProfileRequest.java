@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record CreateUserHealthProfileRequest(
+public record CreateUserProfileRequest(
         @NotNull Long userId,
         @NotNull String sex,
 

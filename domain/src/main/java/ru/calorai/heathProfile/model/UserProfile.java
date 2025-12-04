@@ -10,10 +10,13 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserHealthProfile {
+public class UserProfile {
 
     private Long id;
     private Long userId;
+
+    private String email;
+    private String name;
 
     private ESex sex;
 

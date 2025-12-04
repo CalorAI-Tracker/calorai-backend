@@ -13,27 +13,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.calorai.healthProfile.dto.UserHealthProfileDTO;
-import ru.calorai.healthProfile.dto.request.CreateUserHealthProfileRequest;
-import ru.calorai.healthProfile.dto.request.UpdateUserHealthProfileRequest;
-import ru.calorai.healthProfile.mapper.UserHealthProfileDtoMapper;
-import ru.calorai.heathProfile.model.UserHealthProfile;
-import ru.calorai.heathProfile.port.in.CreateUserHealthProfileApi;
-import ru.calorai.heathProfile.port.in.FindUserHealthProfileApi;
-import ru.calorai.heathProfile.port.in.UpdateUserHealthProfileApi;
+import ru.calorai.healthProfile.dto.UserProfileDTO;
+import ru.calorai.healthProfile.dto.request.CreateUserProfileRequest;
+import ru.calorai.healthProfile.dto.request.UpdateUserProfileRequest;
+import ru.calorai.healthProfile.mapper.UserProfileDtoMapper;
+import ru.calorai.heathProfile.model.UserProfile;
+import ru.calorai.heathProfile.port.in.CreateUserProfileApi;
+import ru.calorai.heathProfile.port.in.FindUserProfileApi;
+import ru.calorai.heathProfile.port.in.UpdateUserProfileApi;
 
 @RestController
 @RequestMapping("/user-profile")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 @Tag(name = "User Profile", description = "API для управления пользовательским профилем")
-public class UserHealthProfileRestController {
+public class UserProfileRestController {
 
-    private final CreateUserHealthProfileApi createUserHealthProfileApi;
-    private final FindUserHealthProfileApi findUserHealthProfileApi;
-    private final UpdateUserHealthProfileApi updateUserHealthProfileApi;
+    private final CreateUserProfileApi createUserProfileApi;
+    private final FindUserProfileApi findUserProfileApi;
+    private final UpdateUserProfileApi updateUserProfileApi;
 
-    private final UserHealthProfileDtoMapper userHealthProfileDtoMapper;
+    private final UserProfileDtoMapper userProfileDtoMapper;
 
     @Operation(
             summary = "Создать профиль пользователя",
@@ -47,11 +47,11 @@ public class UserHealthProfileRestController {
     @PostMapping
     public ResponseEntity<Long> createUserProfile(
             @Parameter(description = "Данные для создания профиля пользователя", required = true)
-            @Valid @RequestBody CreateUserHealthProfileRequest request
+            @Valid @RequestBody CreateUserProfileRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                createUserHealthProfileApi.createUserHealthProfile(
-                        userHealthProfileDtoMapper.toDomain(request))
+                createUserProfileApi.createUserHealthProfile(
+                        userProfileDtoMapper.toDomain(request))
         );
     }
 
@@ -61,16 +61,16 @@ public class UserHealthProfileRestController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Профиль найден",
-                    content = @Content(schema = @Schema(implementation = UserHealthProfileDTO.class))),
+                    content = @Content(schema = @Schema(implementation = UserProfileDTO.class))),
             @ApiResponse(responseCode = "404", description = "Профиль не найден", content = @Content),
     })
     @GetMapping("/user/{userId}")
-    public ResponseEntity<UserHealthProfileDTO> getUserProfileByUser(
+    public ResponseEntity<UserProfileDTO> getUserProfileByUser(
             @Parameter(description = "ID пользователя", required = true)
             @PathVariable("userId") Long userId
     ) {
         return ResponseEntity.ok().body(
-                userHealthProfileDtoMapper.toDto(findUserHealthProfileApi.findUserProfileByUserId(userId))
+                userProfileDtoMapper.toDto(findUserProfileApi.findUserProfileByUserId(userId))
         );
     }
 
@@ -80,22 +80,19 @@ public class UserHealthProfileRestController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Профиль успешно обновлён",
-                    content = @Content(schema = @Schema(implementation = UserHealthProfileDTO.class))),
+                    content = @Content(schema = @Schema(implementation = UserProfileDTO.class))),
             @ApiResponse(responseCode = "400", description = "Некорректные данные запроса", content = @Content),
             @ApiResponse(responseCode = "404", description = "Профиль не найден", content = @Content),
     })
     @PutMapping("/user/{userId}")
-    public ResponseEntity<UserHealthProfileDTO> updateUserProfile(
+    public ResponseEntity<UserProfileDTO> updateUserProfile(
             @Parameter(description = "ID пользователя", required = true)
             @PathVariable("userId") Long userId,
             @Parameter(description = "Новые данные профиля", required = true)
-            @Valid @RequestBody UpdateUserHealthProfileRequest request
+            @Valid @RequestBody UpdateUserProfileRequest request
     ) {
-        UserHealthProfile updatedProfile = updateUserHealthProfileApi.updateUserHealthProfile(
-                userId,
-                userHealthProfileDtoMapper.toDomain(request)
-        );
-        UserHealthProfileDTO dto = userHealthProfileDtoMapper.toDto(updatedProfile);
-        return ResponseEntity.ok(dto);
+        UserProfile updatedProfile = updateUserProfileApi.updateUserHealthProfile(
+                userProfileDtoMapper.toDomain(request, userId));
+        return ResponseEntity.ok(userProfileDtoMapper.toDto(updatedProfile));
     }
 }

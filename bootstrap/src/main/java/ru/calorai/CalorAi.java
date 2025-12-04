@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication
 @ConfigurationPropertiesScan("ru.calorai")
 public class CalorAi {
-    
+
     public static void main(String[] args) {
         SpringApplication.run(CalorAi.class, args);
     }

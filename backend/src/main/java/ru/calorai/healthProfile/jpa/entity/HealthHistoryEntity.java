@@ -2,7 +2,7 @@ package ru.calorai.healthProfile.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.calorai.healthProfile.jpa.entity.id.HealthHistoryId;
+import ru.calorai.healthProfile.jpa.entity.id.HHistoryId;
 
 import java.time.OffsetDateTime;
 
@@ -11,9 +11,9 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@IdClass(HealthHistoryId.class)
+@IdClass(HHistoryId.class)
 @Entity @Table(name = "health_history")
-public class UserHealthHistoryEntity {
+public class HealthHistoryEntity {
 
     @Id
     @Column(name = "user_id", nullable = false)

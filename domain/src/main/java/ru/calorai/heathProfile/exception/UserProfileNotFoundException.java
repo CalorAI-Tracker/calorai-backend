@@ -1,11 +1,11 @@
 package ru.calorai.heathProfile.exception;
 
-public class UserHealthProfileNotFoundException extends RuntimeException {
-    public UserHealthProfileNotFoundException(String message) {
+public class UserProfileNotFoundException extends RuntimeException {
+    public UserProfileNotFoundException(String message) {
         super(message);
     }
 
-    public UserHealthProfileNotFoundException(Long id) {
+    public UserProfileNotFoundException(Long id) {
         super("Профиль пользователя с идентификатором %d не найден".formatted(id));
     }
 }

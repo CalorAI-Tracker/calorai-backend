@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record  UserHealthProfileDTO(
+public record UserProfileDTO(
         @NotNull Long userId,
-        @NotNull String userName,
-        @NotNull String userEmail,
+        @NotNull String name,
+        @NotNull String email,
         @NotNull String sex,
 
         @NotNull Long height,
@@ -17,9 +17,6 @@ public record  UserHealthProfileDTO(
         @NotNull
         @JsonFormat(pattern = "dd.MM.yyyy", locale = "ru_RU")
         LocalDate birthDay,
-        Long targetWeightKg,
-
-        Long weeklyRateKg,
 
         @NotNull String activityCode,
         @NotNull String healthGoalCode

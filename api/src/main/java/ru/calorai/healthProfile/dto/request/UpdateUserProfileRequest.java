@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record UpdateUserHealthProfileRequest (
+public record UpdateUserProfileRequest(
+        @NotNull String email,
+        @NotNull String name,
         @NotNull String sex,
         @NotNull Long height,
         @NotNull Long weight,
@@ -14,7 +16,5 @@ public record UpdateUserHealthProfileRequest (
         @NotNull
         String activityCode,
         @NotNull
-        String healthGoalCode,
-        Long targetWeightKg,
-        Long weeklyRateKg
+        String healthGoalCode
 ) {}

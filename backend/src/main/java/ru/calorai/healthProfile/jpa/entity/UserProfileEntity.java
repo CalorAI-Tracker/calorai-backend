@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class UserHealthProfileEntity {
+public class UserProfileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,12 +43,6 @@ public class UserHealthProfileEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_level_id", nullable = false)
     private ActivityLevelEntity activityLevel;
-
-    @Column(name = "target_weight_kg")
-    private Long targetWeightKg;
-
-    @Column(name = "weekly_rate_kg")
-    private Long weeklyRateKg;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)

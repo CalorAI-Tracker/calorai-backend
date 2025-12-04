@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class HealthHistoryId implements Serializable {
+public class HHistoryId implements Serializable {
     private Long userId;
     private OffsetDateTime measuredAt;
 }

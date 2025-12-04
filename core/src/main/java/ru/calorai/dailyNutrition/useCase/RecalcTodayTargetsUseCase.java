@@ -7,7 +7,7 @@ import ru.calorai.dailyNutririon.model.UserDailyTarget;
 import ru.calorai.dailyNutririon.port.in.RecalcTodayTargetsApi;
 import ru.calorai.dailyNutririon.port.out.UpsertUserDailyTargetsSpi;
 import ru.calorai.heathProfile.enums.ESex;
-import ru.calorai.heathProfile.port.in.FindUserHealthProfileApi;
+import ru.calorai.heathProfile.port.in.FindUserProfileApi;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import java.time.Period;
 @RequiredArgsConstructor
 public class RecalcTodayTargetsUseCase implements RecalcTodayTargetsApi {
 
-    private final FindUserHealthProfileApi findUserProfileApi;
+    private final FindUserProfileApi findUserProfileApi;
     private final UpsertUserDailyTargetsSpi userDailyTargetsSpi;
 
     @Override
