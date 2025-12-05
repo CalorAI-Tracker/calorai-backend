@@ -7,7 +7,9 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":api"))
     implementation(project(":security"))
+    implementation(project(":domain"))
 
     implementation(libs.spring.boot.starter)
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation(libs.flyway)
+    implementation(libs.flyway.postgresql)
 }

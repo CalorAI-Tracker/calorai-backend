@@ -10,7 +10,4 @@ dependencies {
     // Jooq
     implementation(libs.jooq)
     implementation(libs.jooq.codegen)
-
-    // Location-tech
-    implementation(libs.locationtech.jts.core)
 }

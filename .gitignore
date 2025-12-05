@@ -88,3 +88,5 @@ Desktop.ini
 **/.idea/**/tasks.xml
 **/.idea/**/dictionaries/
 **/.idea/**/shelf/
+
+application.yml

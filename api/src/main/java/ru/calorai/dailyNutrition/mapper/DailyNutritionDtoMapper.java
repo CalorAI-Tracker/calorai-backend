@@ -26,8 +26,8 @@ public interface DailyNutritionDtoMapper {
                 .build();
     }
 
-    private String fmt(java.math.BigDecimal v) {
+    private Double fmt(java.math.BigDecimal v) {
         if (v == null) return null;
-        return v.setScale(2, java.math.RoundingMode.HALF_UP).toPlainString();
+        return v.setScale(2, java.math.RoundingMode.HALF_UP).doubleValue();
     }
 }

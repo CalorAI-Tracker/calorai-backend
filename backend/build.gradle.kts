@@ -21,7 +21,4 @@ dependencies {
     // Jooq
     implementation(libs.jooq)
     implementation(libs.jooq.codegen)
-
-    // Hibernate
-    implementation(libs.hibernate.spatial)
 }

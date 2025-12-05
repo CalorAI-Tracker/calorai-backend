@@ -29,10 +29,6 @@ dependencies {
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
 
-    // Location-tech
-    implementation(libs.locationtech.jts.core)
-    implementation(libs.locationtech.jts.common)
-
     // Commons
     implementation(libs.commons.io)
 }
