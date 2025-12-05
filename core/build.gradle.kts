@@ -8,7 +8,4 @@ dependencies {
     // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
-
-    // Location-tech
-    implementation(libs.locationtech.jts.core)
 }
