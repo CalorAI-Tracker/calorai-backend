@@ -30,7 +30,7 @@ create table if not exists user_roles
         references role (id) on delete cascade
 );
 
-insert into role (iname, description)
+insert into role (name, description)
 values ('USER', 'Стандартный пользователь'),
        ('ADMIN', 'Администратор'),
        ('DEVELOPER', 'Разработчик') on conflict (id) do nothing;

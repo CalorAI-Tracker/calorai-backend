@@ -24,13 +24,9 @@ postgresql-driver = { module = "org.postgresql:postgresql", version.ref = "postg
 
 springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version = "2.8.13" }
 
-locationtech-jts-core = { module = "org.locationtech.jts:jts-core", version.ref = "locationtech-jts" }
-locationtech-jts-common = { module = "org.locationtech.jts.io:jts-io-common", version.ref = "locationtech-jts" }
-
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-codegen = { module = "org.jooq:jooq-codegen", version.ref = "jooq" }
 
-hibernate-spatial = { module = "org.hibernate.orm:hibernate-spatial" }
 flyway = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgresql = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 
@@ -40,12 +36,10 @@ spring-dep-mgmt = "1.1.6"
 mapstruct = "1.6.0"
 lombok = "1.18.42"
 junit = "5.11.0"
-geolatte = "1.8.2"
 jooq = "3.20.5"
 commons-io = "2.16.1"
 java-jwt = "4.4.0"
 postgresql-driver = "42.7.7"
-locationtech-jts = "1.20.0"
 flyway = "11.18.0"
 
 [plugins]

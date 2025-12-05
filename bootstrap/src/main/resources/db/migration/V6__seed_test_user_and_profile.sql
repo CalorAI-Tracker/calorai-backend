@@ -1,15 +1,13 @@
 -- Тестовый пользователь
-insert into users (email, password_hash, created_at, email_verified, enabled, name, auth_provider)
-values ('test@test.com',
-        '12345',
-        now(),
-        true,
-        true,
-        'Тест Тестович',
-        'local') on conflict (id) do nothing;
-
-insert into user_roles (user_id, role_id)
-values (1000, 1) on conflict (user_id, role_id) do nothing;
+with u as (
+    insert into users (email, password_hash, created_at, email_verified, enabled, name, auth_provider)
+    values ('test@test.com', '12345', now(), true, true, 'Тест Тестович', 'local')
+    on conflict (id) do nothing
+)
+insert
+into user_roles (user_id, role_id)
+select id, 1
+from u;
 
 -- Профиль пользователя: женщина, 170 см, 65 кг, умеренная активность, цель похудеть
 insert into user_profile (user_id,

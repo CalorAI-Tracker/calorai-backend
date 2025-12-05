@@ -14,8 +14,9 @@ services:
       - calorai_data:/var/lib/postgresql/data
 
   app:
-    build: .
-    container_name: calorai-app
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     depends_on:
       - db
     environment:
