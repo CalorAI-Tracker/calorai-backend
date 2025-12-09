@@ -17,5 +17,6 @@ public class ActivityLevel {
 
     private String code;
     private String title;
+    private String description;
     private BigDecimal factor;
 }
