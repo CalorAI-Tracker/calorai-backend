@@ -1,6 +1,6 @@
 create table if not exists user_profile
 (
-    id                bigserial primary key,
+    id bigint generated always as identity primary key,
     user_id           bigint        not null,
     sex               char(1)       not null,
     height_cm         smallint      not null,
@@ -71,10 +71,10 @@ END $$;
 
 create table if not exists food_diary
 (
-    id               uuid primary key,
+    id bigint generated always as identity primary key,
     user_id          bigint        not null,
     eaten_at         date          not null,
-    meal             meal          not null,
+    meal             text          not null,
     entry_name       text          not null,
     brand            text,
     barcode          text,

@@ -1,6 +1,7 @@
 package ru.calorai.foodDiary.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,28 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 @RequestMapping("/daily-meal")
+@Tag(name = "Daily MealIntake API", description = "API для получения агрегированной статистики КБЖУ по приёмам пищи")
 public class DailyMealIntakeController {
 
     private final FindDailyMealIntakeApi api;
     private final DailyMealIntakeDtoMapper mapper;
 
-    @Operation(summary = "Факт КБЖУ по приёмам пищи на дату")
+    @Operation(
+            summary = "Получение агрегированных КБЖУ по приёмам пищи за дату",
+            description = """
+                    Возвращает сводку потреблённых калорий, белков, жиров и углеводов, 
+                    сгруппированных по приёмам пищи (завтрак, обед, ужин, перекус) для указанного пользователя и даты.
+                    
+                    Данные агрегируются из таблицы food_diary по полю meal (enum: BREAKFAST, LUNCH, DINNER, SNACK).
+                    Если дата не указана, используется текущая дата.
+                    
+                    Поля Item в ответе:
+                    - meal: название приёма пищи
+                    - kcal: суммарные калории
+                    - proteinG, fatG, carbsG: макронутриенты в граммах (округлено до 2 знаков)
+                    - entriesCnt: количество записей в приёме пищи
+                    """
+    )
     @GetMapping("/{userId}")
     public ResponseEntity<DailyMealIntakeDTO> getMeals(
             @PathVariable("userId") Long userId,
