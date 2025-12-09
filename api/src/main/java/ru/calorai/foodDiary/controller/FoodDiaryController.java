@@ -1,0 +1,39 @@
+package ru.calorai.foodDiary.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import ru.calorai.foodDiary.dto.request.CreateFoodDiaryEntryRequest;
+import ru.calorai.foodDiary.mapper.FoodDiaryDtoMapper;
+import ru.calorai.foodDiary.port.in.CreateFoodDiaryEntryApi;
+
+@RestController
+@RequestMapping("/food-diary")
+@RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
+@Tag(
+        name = "Food Diary API",
+        description = "API для управления записями дневника питания"
+)
+public class FoodDiaryController {
+
+    private final CreateFoodDiaryEntryApi createFoodDiaryEntryApi;
+    private final FoodDiaryDtoMapper dtoMapper;
+
+    @Operation(summary = "Создать запись о приёме пищи вручную")
+    @PostMapping("/{userId}/entries")
+    public ResponseEntity<Long> createEntry(
+            @PathVariable("userId") Long userId,
+            @RequestBody CreateFoodDiaryEntryRequest request
+    ) {
+        var domainInput = dtoMapper.toDomain(request);
+        domainInput.setUserId(userId);
+        return ResponseEntity.ok(
+                createFoodDiaryEntryApi.createFoodDiaryEntry(domainInput)
+        );
+    }
+}
+

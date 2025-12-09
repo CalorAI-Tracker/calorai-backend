@@ -3,11 +3,11 @@ package ru.calorai.foodDiary.jpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.calorai.foodDiary.model.EMeal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "food_diary")
@@ -19,8 +19,9 @@ import java.util.UUID;
 public class FoodDiaryEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;

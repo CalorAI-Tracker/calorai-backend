@@ -2,6 +2,7 @@ package ru.calorai.dailyNutrition.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,17 @@ import java.time.LocalDate;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/daily-nutrition")
+@Tag(
+        name = "Daily Nutrition",
+        description = """
+        API для получения итоговой статистики КБЖУ за день.
+        
+        Сравнивает плановые цели (user_daily_targets) с фактическим потреблением (daily_intake_totals).
+        Возвращает план, факт, остаток и проценты выполнения для дашборда.
+        
+        План рассчитывается по формуле Mifflin-St Jeor с учётом user_profile (возраст, вес, пол, активность).
+        """
+)
 public class DailyNutritionRestController {
 
     private final FindDailyNutritionApi findDailyNutritionApi;

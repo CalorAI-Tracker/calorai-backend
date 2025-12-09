@@ -1,6 +1,6 @@
 create table if not exists users
 (
-    id             bigserial primary key,
+    id bigint generated always as identity primary key,
     email          varchar(100) unique,
     password_hash  varchar(255),
     created_at     timestamptz not null default now(),
@@ -14,7 +14,7 @@ create table if not exists users
 
 create table if not exists role
 (
-    id          bigserial primary key,
+    id bigint generated always as identity primary key,
     name        text not null unique,
     description text
 );
@@ -37,7 +37,7 @@ values ('USER', 'Стандартный пользователь'),
 
 create table if not exists refresh_tokens
 (
-    id              bigserial primary key,
+    id bigint generated always as identity primary key,
     jti             uuid         not null unique,
     user_id         bigint       not null,
     token_hash      varchar(255) not null,
