@@ -31,35 +31,35 @@ public class SecurityAdviceController {
         );
     }
 
-    @ExceptionHandler({AuthenticationException.class, AuthenticationCredentialsNotFoundException.class})
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<ErrorPresentation> handleUnauthorized(
-            Exception ex,
-            HttpServletRequest request) {
-
-        ErrorPresentation error = new ErrorPresentation(
-                HttpStatus.UNAUTHORIZED.value(),
-                new Date(),
-                ex.getMessage() != null ? ex.getMessage() : "Доступ запрещён",
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseEntity<ErrorPresentation> handleForbidden(
-            AccessDeniedException ex,
-            HttpServletRequest request) {
-
-        ErrorPresentation error = new ErrorPresentation(
-                HttpStatus.FORBIDDEN.value(),
-                new Date(),
-                ex.getMessage() != null ? ex.getMessage() : "Недостаточно прав доступа",
-                request.getRequestURI()
-        );
-
-        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
-    }
+//    @ExceptionHandler({AuthenticationException.class, AuthenticationCredentialsNotFoundException.class})
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    public ResponseEntity<ErrorPresentation> handleUnauthorized(
+//            Exception ex,
+//            HttpServletRequest request) {
+//
+//        ErrorPresentation error = new ErrorPresentation(
+//                HttpStatus.UNAUTHORIZED.value(),
+//                new Date(),
+//                ex.getMessage() != null ? ex.getMessage() : "Доступ запрещён",
+//                request.getRequestURI()
+//        );
+//
+//        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+//    }
+//
+//    @ExceptionHandler(AccessDeniedException.class)
+//    @ResponseStatus(HttpStatus.FORBIDDEN)
+//    public ResponseEntity<ErrorPresentation> handleForbidden(
+//            AccessDeniedException ex,
+//            HttpServletRequest request) {
+//
+//        ErrorPresentation error = new ErrorPresentation(
+//                HttpStatus.FORBIDDEN.value(),
+//                new Date(),
+//                ex.getMessage() != null ? ex.getMessage() : "Недостаточно прав доступа",
+//                request.getRequestURI()
+//        );
+//
+//        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+//    }
 }

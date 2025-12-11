@@ -75,6 +75,7 @@ public class SecurityConfiguration {
                 .build();
     }
 
+    // TODO: временное решение
     @Bean
     public AuthenticationEntryPoint json401EntryPoint() {
         return (request, response, authException) -> {
@@ -93,6 +94,7 @@ public class SecurityConfiguration {
         };
     }
 
+    // TODO: временное решение
     @Bean
     public AccessDeniedHandler json403Handler() {
         return (request, response, accessDeniedException) -> {
