@@ -13,8 +13,6 @@ public record UpdateUserProfileRequest(
         @NotNull Long weight,
         @JsonFormat(pattern = "dd.MM.yyyy", locale = "ru_RU")
         @NotNull LocalDate birthDay,
-        @NotNull
-        String activityCode,
-        @NotNull
-        String healthGoalCode
+        @NotNull String activityCode,
+        @NotNull String healthGoalCode
 ) {}

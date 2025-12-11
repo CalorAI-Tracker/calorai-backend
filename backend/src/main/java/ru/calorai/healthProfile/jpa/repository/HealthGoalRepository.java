@@ -7,4 +7,6 @@ import ru.calorai.healthProfile.jpa.entity.HealthGoalEntity;
 @Repository
 public interface HealthGoalRepository extends JpaRepository<HealthGoalEntity, Short> {
     boolean existsByCode(String code);
+
+    HealthGoalEntity getByCode(String code);
 }
