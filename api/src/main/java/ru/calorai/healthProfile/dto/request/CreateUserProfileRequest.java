@@ -14,7 +14,8 @@ public record CreateUserProfileRequest(
 
         @JsonFormat(pattern = "dd.MM.yyyy", locale = "ru_RU")
         @NotNull LocalDate birthDay,
+        @NotNull String name,
 
-        @NotNull Integer activityId,
-        @NotNull Integer goalId
+        @NotNull String activityCode,
+        @NotNull String healthGoalCode
 ) {}

@@ -10,11 +10,13 @@ import ru.calorai.heathProfile.model.UserProfile;
 @Mapper(componentModel = "spring")
 public interface UserProfileDtoMapper {
 
-    @Mapping(target = "healthGoal.id", source = "goalId")
-    @Mapping(target = "activityLevel.id", source = "activityId")
+    @Mapping(target = "healthGoal.code", source = "healthGoalCode")
+    @Mapping(target = "activityLevel.code", source = "activityCode")
     UserProfile toDomain(CreateUserProfileRequest request);
 
     @Mapping(target = "userId", source = "userId")
+    @Mapping(target = "healthGoal.code", source = "request.healthGoalCode")
+    @Mapping(target = "activityLevel.code", source = "request.activityCode")
     UserProfile toDomain(UpdateUserProfileRequest request, Long userId);
 
     @Mapping(source = "profile.healthGoal.code", target = "healthGoalCode")
