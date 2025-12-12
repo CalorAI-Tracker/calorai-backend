@@ -24,6 +24,9 @@ public class HealthGoalEntity {
     @Column(name = "title", nullable = false, length = 128)
     private String title;
 
+    @Column(name = "description")
+    private String description;
+
     // сдвиг калорий относительно TDEE
     @Column(name = "calorie_delta_percent", nullable = false)
     private Integer calorieDeltaPercent;

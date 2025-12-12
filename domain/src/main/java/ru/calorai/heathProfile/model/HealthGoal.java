@@ -13,5 +13,6 @@ public class HealthGoal {
     private Short id;
     private String code;
     private String title;
+    private String description;
     private Integer calorieDeltaPercent;
 }

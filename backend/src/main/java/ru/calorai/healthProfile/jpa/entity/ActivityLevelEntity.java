@@ -26,6 +26,9 @@ public class ActivityLevelEntity {
     @Column(name = "title", nullable = false, length = 128)
     private String title;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "factor", nullable = false, precision = 4, scale = 3)
     private BigDecimal factor;
 }
