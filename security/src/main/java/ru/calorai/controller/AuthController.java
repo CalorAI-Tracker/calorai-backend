@@ -15,12 +15,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.calorai.dto.request.LoginRequest;
+import ru.calorai.dto.request.LogoutRequest;
+import ru.calorai.dto.request.RefreshRequest;
 import ru.calorai.dto.request.SignUpRequest;
 import ru.calorai.dto.response.TokenResponse;
 import ru.calorai.jwToken.JwtProperties;
@@ -33,7 +34,6 @@ import ru.calorai.user.jpa.repository.UserRepository;
 import ru.calorai.heathProfile.enums.ERole;
 import ru.calorai.users.exception.EmailAlreadyTakenException;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -99,8 +99,8 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Невалидный refresh токен")
     })
     @PostMapping("/refresh")
-    public TokenResponse refresh(@RequestBody Map<String, String> body) {
-        String refresh = body.get("refreshToken");
+    public TokenResponse refresh(@RequestBody @Valid RefreshRequest req) {
+        String refresh = req.refreshToken();
         if (!jwt.validateRefreshToken(refresh)) {
             throw new BadCredentialsException("invalid refresh");
         }
@@ -110,18 +110,20 @@ public class AuthController {
                         .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
                         .collect(Collectors.toList()),
                 (email, userId) -> {
-                    Collection<? extends GrantedAuthority> auths =
-                            roles.findByUsersId(userId).stream()
-                                    .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
-                                    .collect(Collectors.toList());
+                    var auths = roles.findByUsersId(userId).stream()
+                            .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getName()))
+                            .collect(Collectors.toList());
                     return jwt.generateAccessToken(email, userId, auths);
                 }
         );
+
+        long expiresIn = jwtProperties.getAccessTokenExpirationMinutes() * 60L;
+
         return new TokenResponse(
                 pair.getFirst(),
-                 pair.getSecond(),
+                pair.getSecond(),
                 "Bearer",
-                0L
+                expiresIn
         );
     }
 
@@ -166,8 +168,8 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Успешный выход"),
             @ApiResponse(responseCode = "400", description = "Невалидный токен")})
     @PostMapping("/logout")
-    public void logout(@RequestBody Map<String, String> body) {
-        String refresh = body.getOrDefault("refreshToken", "");
+    public void logout(@RequestBody @Valid LogoutRequest req) {
+        String refresh = req.refreshToken();
         if (jwt.validateRefreshToken(refresh)) {
             refreshTokens.revokeByJti(jwt.extractJtiFromRefresh(refresh));
         }
