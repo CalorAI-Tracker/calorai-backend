@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.foodDiary.model.DailyMealIntake;
 import ru.calorai.foodDiary.port.in.FindDailyMealIntakeApi;
-import ru.calorai.foodDiary.port.out.FindDailyMealIntakeSpi;
+import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class FindDailyMealIntakeUseCase implements FindDailyMealIntakeApi {
 
-    private final FindDailyMealIntakeSpi spi;
+    private final FindInFoodDiarySpi spi;
 
     @Override
     @Transactional(readOnly = true)

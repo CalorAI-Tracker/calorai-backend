@@ -33,4 +33,6 @@ public interface FoodDiaryRepository extends JpaRepository<FoodDiaryEntity, UUID
         GROUP BY f.meal
     """)
     List<MealAgg> aggregateByMeal(@Param("userId") Long userId, @Param("date") LocalDate date);
+
+    List<FoodDiaryEntity> findByUserIdAndEatenAt(Long userId, LocalDate eatenAt);
 }

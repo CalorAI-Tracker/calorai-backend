@@ -26,5 +26,5 @@ public class DailyNutritionDTO {
     private TargetDTO remaining;
 
     @Schema(description = "Процент выполнения плана по каждому нутриенту, 0..100+")
-    private Map<String, Integer> completionPercent;
+    private CompletionPercentDTO completionPercent;
 }

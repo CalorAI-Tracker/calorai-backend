@@ -2,20 +2,24 @@ package ru.calorai.foodDiary.jpa.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.calorai.foodDiary.jpa.mapper.FoodDiaryMapper;
 import ru.calorai.foodDiary.jpa.repository.FoodDiaryRepository;
 import ru.calorai.foodDiary.model.DailyMealIntake;
+import ru.calorai.foodDiary.model.FoodDiaryEntry;
 import ru.calorai.foodDiary.model.MealIntake;
-import ru.calorai.foodDiary.port.out.FindDailyMealIntakeSpi;
+import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JpaFindDailyMealIntake implements FindDailyMealIntakeSpi {
+public class JpaFindInFoodDiary implements FindInFoodDiarySpi {
 
     private final FoodDiaryRepository foodDiaryRepository;
+    private final FoodDiaryMapper foodDiaryMapper;
 
     @Override
     public DailyMealIntake findByUserAndDate(Long userId, LocalDate date) {
@@ -37,6 +41,14 @@ public class JpaFindDailyMealIntake implements FindDailyMealIntakeSpi {
                 .date(date)
                 .items(items)
                 .build();
+    }
+
+    @Override
+    public List<FoodDiaryEntry> findByUserIdAndEatenAt(Long userId, LocalDate eatenAt) {
+        return foodDiaryRepository.findByUserIdAndEatenAt(userId, eatenAt)
+                .stream()
+                .map(foodDiaryMapper::toDomain)
+                .toList();
     }
 
     private BigDecimal nz(BigDecimal v) {
