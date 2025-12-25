@@ -22,7 +22,7 @@ public class FindDailyNutritionUseCase implements FindDailyNutritionApi {
     private final RecalcTodayTargetsApi recalcTodayTargetsApi;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public DailyNutrition findByUserAndDate(Long userId, LocalDate date, boolean ensureTodayTarget) {
         var result = findDailyNutritionSpi.findByUserAndDate(userId, date);
         if (result.isPresent()) return result.get();

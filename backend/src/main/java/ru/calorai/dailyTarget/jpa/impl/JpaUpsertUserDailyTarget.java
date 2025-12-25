@@ -3,11 +3,15 @@ package ru.calorai.dailyTarget.jpa.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.calorai.dailyNutririon.model.DailyNutrition;
 import ru.calorai.dailyNutririon.model.UserDailyTarget;
 import ru.calorai.dailyNutririon.port.out.UpsertUserDailyTargetsSpi;
 import ru.calorai.dailyTarget.jpa.entity.UserDailyTargetEntity;
 import ru.calorai.dailyTarget.jpa.entity.id.UserDailyTargetId;
+import ru.calorai.dailyTarget.jpa.mapper.UserDailyTargetEntityMapper;
 import ru.calorai.dailyTarget.jpa.repository.UserDailyTargetRepository;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

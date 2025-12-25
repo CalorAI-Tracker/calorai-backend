@@ -2,6 +2,8 @@ package ru.calorai.foodDiary.jpa.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.calorai.dailyNutririon.model.DailyMealComposition;
+import ru.calorai.dailyNutririon.port.out.FindMealCompositionSpi;
 import ru.calorai.foodDiary.jpa.mapper.FoodDiaryMapper;
 import ru.calorai.foodDiary.jpa.repository.FoodDiaryRepository;
 import ru.calorai.foodDiary.model.DailyMealIntake;
@@ -9,14 +11,14 @@ import ru.calorai.foodDiary.model.FoodDiaryEntry;
 import ru.calorai.foodDiary.model.MealIntake;
 import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.calorai.foodDiary.jpa.mapper.FoodDiaryMapper.nz;
+
 @Component
 @RequiredArgsConstructor
-public class JpaFindInFoodDiary implements FindInFoodDiarySpi {
+public class JpaFindInFoodDiary implements FindInFoodDiarySpi, FindMealCompositionSpi {
 
     private final FoodDiaryRepository foodDiaryRepository;
     private final FoodDiaryMapper foodDiaryMapper;
@@ -51,7 +53,15 @@ public class JpaFindInFoodDiary implements FindInFoodDiarySpi {
                 .toList();
     }
 
-    private BigDecimal nz(BigDecimal v) {
-        return v == null ? new BigDecimal("0.00") : v.setScale(2, RoundingMode.HALF_UP);
+    @Override
+    public DailyMealComposition findMealCompositionByUserAndDate(Long userId, LocalDate date) {
+        var entries = foodDiaryRepository.findByUserIdAndEatenAt(userId, date);
+
+        var groupedMeals = foodDiaryMapper.entriesToGroupedMealItems(entries);
+
+        return DailyMealComposition.builder()
+                .date(date)
+                .meals(groupedMeals)
+                .build();
     }
 }
