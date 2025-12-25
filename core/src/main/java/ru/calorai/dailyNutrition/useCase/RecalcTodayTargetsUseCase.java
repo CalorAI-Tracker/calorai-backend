@@ -2,7 +2,6 @@ package ru.calorai.dailyNutrition.useCase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.dailyNutririon.model.UserDailyTarget;
 import ru.calorai.dailyNutririon.port.in.RecalcTodayTargetsApi;
 import ru.calorai.dailyNutririon.port.out.UpsertUserDailyTargetsSpi;
@@ -21,7 +20,6 @@ public class RecalcTodayTargetsUseCase implements RecalcTodayTargetsApi {
     private final UpsertUserDailyTargetsSpi userDailyTargetsSpi;
 
     @Override
-    @Transactional
     public void recalcForToday(Long userId) {
         var profile = findUserProfileApi.findUserProfileByUserId(userId);
         var today = LocalDate.now();
