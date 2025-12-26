@@ -118,7 +118,7 @@ public class AuthController {
         );
 
         long expiresIn = jwtProperties.getAccessTokenExpirationMinutes() * 60L;
-        Long userId = jwt.extractUserId(refresh);
+        Long userId = jwt.extractUserIdFromRefresh(refresh);
         return new TokenResponse(
                 userId,
                 pair.getFirst(),
