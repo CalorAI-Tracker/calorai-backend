@@ -103,4 +103,8 @@ public class JwtService {
     public Long extractUserId(String token) {
         return accessVerifier.verify(token).getClaim("userId").asLong();
     }
+
+    public Long extractUserIdFromRefresh(String token) {
+        return refreshVerifier.verify(token).getClaim("userId").asLong();
+    }
 }
