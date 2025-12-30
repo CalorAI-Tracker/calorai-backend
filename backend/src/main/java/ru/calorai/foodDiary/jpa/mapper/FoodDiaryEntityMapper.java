@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
-public interface FoodDiaryMapper {
+public interface FoodDiaryEntityMapper {
 
     // Существующие методы
     @Mapping(target = "meal", source = "meal", qualifiedByName = "mealToString")

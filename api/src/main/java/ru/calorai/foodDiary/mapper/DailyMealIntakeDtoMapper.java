@@ -31,8 +31,7 @@ public interface DailyMealIntakeDtoMapper {
         ).toList();
     }
 
-    private String fmt(BigDecimal v) {
-        if (v == null) return "0.00";
-        return v.setScale(2, RoundingMode.HALF_UP).toPlainString();
+    private Double fmt(BigDecimal v) {
+        return v.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 }
