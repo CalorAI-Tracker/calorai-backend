@@ -3,7 +3,6 @@ package ru.calorai.foodDiary.jpa.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import ru.calorai.foodDiary.model.EMeal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.calorai.dailyNutririon.model.DailyMealComposition;
 import ru.calorai.dailyNutririon.port.out.FindMealCompositionSpi;
-import ru.calorai.foodDiary.jpa.mapper.FoodDiaryMapper;
+import ru.calorai.foodDiary.jpa.mapper.FoodDiaryEntityMapper;
 import ru.calorai.foodDiary.jpa.repository.FoodDiaryRepository;
 import ru.calorai.foodDiary.model.DailyMealIntake;
 import ru.calorai.foodDiary.model.FoodDiaryEntry;
@@ -14,14 +14,14 @@ import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.calorai.foodDiary.jpa.mapper.FoodDiaryMapper.nz;
+import static ru.calorai.foodDiary.jpa.mapper.FoodDiaryEntityMapper.nz;
 
 @Component
 @RequiredArgsConstructor
 public class JpaFindInFoodDiary implements FindInFoodDiarySpi, FindMealCompositionSpi {
 
     private final FoodDiaryRepository foodDiaryRepository;
-    private final FoodDiaryMapper foodDiaryMapper;
+    private final FoodDiaryEntityMapper foodDiaryEntityMapper;
 
     @Override
     public DailyMealIntake findByUserAndDate(Long userId, LocalDate date) {
@@ -49,7 +49,7 @@ public class JpaFindInFoodDiary implements FindInFoodDiarySpi, FindMealCompositi
     public List<FoodDiaryEntry> findByUserIdAndEatenAt(Long userId, LocalDate eatenAt) {
         return foodDiaryRepository.findByUserIdAndEatenAt(userId, eatenAt)
                 .stream()
-                .map(foodDiaryMapper::toDomain)
+                .map(foodDiaryEntityMapper::toDomain)
                 .toList();
     }
 
@@ -57,7 +57,7 @@ public class JpaFindInFoodDiary implements FindInFoodDiarySpi, FindMealCompositi
     public DailyMealComposition findMealCompositionByUserAndDate(Long userId, LocalDate date) {
         var entries = foodDiaryRepository.findByUserIdAndEatenAt(userId, date);
 
-        var groupedMeals = foodDiaryMapper.entriesToGroupedMealItems(entries);
+        var groupedMeals = foodDiaryEntityMapper.entriesToGroupedMealItems(entries);
 
         return DailyMealComposition.builder()
                 .date(date)

@@ -23,9 +23,9 @@ public class DailyMealIntakeDTO {
     public static class Item {
         private String meal;
         private Integer kcal;
-        private String proteinG;
-        private String fatG;
-        private String carbsG;
+        private Double proteinG;
+        private Double fatG;
+        private Double carbsG;
         private Integer entriesCnt;
     }
 }
