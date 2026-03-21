@@ -2,6 +2,7 @@ package ru.calorai.foodDiary.jpa.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import ru.calorai.dailyNutririon.model.DailyMealComposition;
 import ru.calorai.dailyNutririon.model.Macro;
@@ -36,6 +37,9 @@ public interface FoodDiaryEntityMapper {
     @Mapping(target = "fiberG", source = "fiberG", qualifiedByName = "bdToDouble")
     @Mapping(target = "sugarG", source = "sugarG", qualifiedByName = "bdToDouble")
     FoodDiaryEntry toDomain(FoodDiaryEntity entity);
+
+    @Mapping(target = "createdAt", ignore = true)
+    void copyToEntity(FoodDiaryEntry domain, @MappingTarget FoodDiaryEntity entity);
 
     // Новые методы для MealComposition
     @Mapping(target = "macros", source = ".", qualifiedByName = "toMealMacros")

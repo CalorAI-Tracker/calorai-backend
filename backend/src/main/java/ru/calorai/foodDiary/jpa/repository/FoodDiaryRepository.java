@@ -8,9 +8,9 @@ import ru.calorai.foodDiary.jpa.entity.FoodDiaryEntity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
-public interface FoodDiaryRepository extends JpaRepository<FoodDiaryEntity, UUID> {
+public interface FoodDiaryRepository extends JpaRepository<FoodDiaryEntity, Long> {
 
     interface MealAgg {
         String getMeal();
@@ -35,4 +35,6 @@ public interface FoodDiaryRepository extends JpaRepository<FoodDiaryEntity, UUID
     List<MealAgg> aggregateByMeal(@Param("userId") Long userId, @Param("date") LocalDate date);
 
     List<FoodDiaryEntity> findByUserIdAndEatenAt(Long userId, LocalDate eatenAt);
+
+    Optional<FoodDiaryEntity> findByIdAndUserId(Long id, Long userId);
 }
