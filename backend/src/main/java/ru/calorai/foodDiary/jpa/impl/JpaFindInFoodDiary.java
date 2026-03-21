@@ -11,10 +11,11 @@ import ru.calorai.foodDiary.model.FoodDiaryEntry;
 import ru.calorai.foodDiary.model.MealIntake;
 import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
-
-import static ru.calorai.foodDiary.jpa.mapper.FoodDiaryEntityMapper.nz;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -63,5 +64,15 @@ public class JpaFindInFoodDiary implements FindInFoodDiarySpi, FindMealCompositi
                 .date(date)
                 .meals(groupedMeals)
                 .build();
+    }
+
+    @Override
+    public Optional<FoodDiaryEntry> findByIdAndUserId(Long entryId, Long userId) {
+        return foodDiaryRepository.findByIdAndUserId(entryId, userId)
+                .map(foodDiaryEntityMapper::toDomain);
+    }
+
+    private BigDecimal nz(BigDecimal v) {
+        return v == null ? new BigDecimal("0.00") : v.setScale(2, RoundingMode.HALF_UP);
     }
 }
