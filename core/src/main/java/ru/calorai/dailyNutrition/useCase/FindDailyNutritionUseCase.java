@@ -18,7 +18,6 @@ import java.time.LocalDate;
 public class FindDailyNutritionUseCase implements FindDailyNutritionApi {
 
     private final FindDailyNutritionSpi findDailyNutritionSpi;
-
     private final RecalcTodayTargetsApi recalcTodayTargetsApi;
 
     @Override
