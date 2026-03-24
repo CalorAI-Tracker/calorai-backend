@@ -3,6 +3,7 @@ package ru.calorai.foodDiary.useCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.calorai.common.service.RecalcDailyIntakeTotalsService;
 import ru.calorai.foodDiary.model.FoodDiaryEntry;
 import ru.calorai.foodDiary.port.in.CreateFoodDiaryEntryApi;
 import ru.calorai.foodDiary.port.out.CreateFoodDiaryEntrySpi;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 public class CreateFoodDiaryEntryUseCase implements CreateFoodDiaryEntryApi {
 
     private final CreateFoodDiaryEntrySpi createFoodDiaryEntrySpi;
-    private final RecalcDailyIntakeTotalsUseCase recalcDailyIntakeTotalsUseCase;
+    private final RecalcDailyIntakeTotalsService recalcDailyIntakeTotalsService;
 
     @Override
     @Transactional
@@ -31,7 +32,7 @@ public class CreateFoodDiaryEntryUseCase implements CreateFoodDiaryEntryApi {
 
         var id = createFoodDiaryEntrySpi.createFoodDiaryEntry(entry);
 
-        recalcDailyIntakeTotalsUseCase.recalcForUserAndDate(entry.getUserId(), eatenAt);
+        recalcDailyIntakeTotalsService.recalcForUserAndDate(entry.getUserId(), eatenAt);
 
         return id;
     }

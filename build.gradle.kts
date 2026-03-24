@@ -3,6 +3,8 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     alias(libs.plugins.spring.boot) apply false
     alias(libs.plugins.dependency.management)
+    alias(libs.plugins.spotless) apply false
+
     id("java")
 }
 

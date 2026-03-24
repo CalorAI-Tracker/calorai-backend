@@ -1,4 +1,4 @@
-package ru.calorai.dailyNutrition.useCase;
+package ru.calorai.common.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.time.Period;
 
 @Service
 @RequiredArgsConstructor
-public class RecalcTodayTargetsUseCase implements RecalcTodayTargetsApi {
+public class RecalcTodayTargetsService implements RecalcTodayTargetsApi {
 
     private final FindUserProfileApi findUserProfileApi;
     private final UpsertUserDailyTargetsSpi userDailyTargetsSpi;

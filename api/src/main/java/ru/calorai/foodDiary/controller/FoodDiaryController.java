@@ -13,6 +13,7 @@ import ru.calorai.foodDiary.dto.DailyMealCompositionDTO;
 import ru.calorai.foodDiary.dto.request.CreateFoodDiaryEntryRequest;
 import ru.calorai.foodDiary.mapper.FoodDiaryDtoMapper;
 import ru.calorai.foodDiary.port.in.CreateFoodDiaryEntryApi;
+import ru.calorai.foodDiary.port.in.DeleteFoodDiaryEntryApi;
 import ru.calorai.foodDiary.port.in.UpdateFoodDiaryEntryApi;
 
 import java.time.LocalDate;
@@ -29,8 +30,9 @@ public class FoodDiaryController {
 
     private final CreateFoodDiaryEntryApi createFoodDiaryEntryApi;
     private final FindDailyMealCompositionApi findDailyMealCompositionApi;
-
     private final UpdateFoodDiaryEntryApi updateFoodDiaryEntryApi;
+    private final DeleteFoodDiaryEntryApi deleteFoodDiaryEntryApi;
+
     private final FoodDiaryDtoMapper dtoMapper;
 
     @Operation(summary = "Создать запись о приёме пищи вручную")
@@ -63,15 +65,23 @@ public class FoodDiaryController {
         return ResponseEntity.ok(dto);
     }
 
-    @Operation(summary = "Обновить запись о приёме пищи (КБЖУ, порция, дата и т.д.)")
-    @PutMapping("/{userId}/entries/{entryId}")
+    @Operation(summary = "Обновить запись о приёме пищи (КБЖУ, порция, дата и т.д.) для текущего пользователя")
+    @PutMapping("/entries/{entryId}")
     public ResponseEntity<Void> updateEntry(
-            @PathVariable("userId") Long userId,
             @PathVariable("entryId") Long entryId,
             @RequestBody CreateFoodDiaryEntryRequest request
     ) {
         var incoming = dtoMapper.toDomain(request);
-        updateFoodDiaryEntryApi.updateFoodDiaryEntry(userId, entryId, incoming);
+        updateFoodDiaryEntryApi.updateFoodDiaryEntry( entryId, incoming);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Удалить запись о приёме пищи")
+    @DeleteMapping("/entries/{entryId}")
+    public ResponseEntity<Void> deleteEntry(
+            @PathVariable("entryId") Long entryId
+    ) {
+        deleteFoodDiaryEntryApi.deleteFoodDiaryEntry(entryId);
         return ResponseEntity.noContent().build();
     }
 }

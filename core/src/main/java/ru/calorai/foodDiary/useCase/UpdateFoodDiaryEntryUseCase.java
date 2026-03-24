@@ -3,11 +3,13 @@ package ru.calorai.foodDiary.useCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.calorai.common.service.RecalcDailyIntakeTotalsService;
 import ru.calorai.foodDiary.exception.FoodDiaryEntryNotFoundException;
 import ru.calorai.foodDiary.model.FoodDiaryEntry;
 import ru.calorai.foodDiary.port.in.UpdateFoodDiaryEntryApi;
 import ru.calorai.foodDiary.port.out.FindInFoodDiarySpi;
 import ru.calorai.foodDiary.port.out.UpdateFoodDiaryEntrySpi;
+import ru.calorai.security.port.in.CurrentUserExtractorApi;
 
 import java.time.LocalDate;
 
@@ -17,11 +19,15 @@ public class UpdateFoodDiaryEntryUseCase implements UpdateFoodDiaryEntryApi {
 
     private final FindInFoodDiarySpi findInFoodDiarySpi;
     private final UpdateFoodDiaryEntrySpi updateFoodDiaryEntrySpi;
-    private final RecalcDailyIntakeTotalsUseCase recalcDailyIntakeTotalsUseCase;
+
+    private final CurrentUserExtractorApi currentUserExtractor;
+
+    private final RecalcDailyIntakeTotalsService recalcDailyIntakeTotalsService;
 
     @Override
     @Transactional
-    public void updateFoodDiaryEntry(Long userId, Long entryId, FoodDiaryEntry incoming) {
+    public void updateFoodDiaryEntry(Long entryId, FoodDiaryEntry incoming) {
+        Long userId = currentUserExtractor.getUser().getId();
         var existing = findInFoodDiarySpi.findByIdAndUserId(entryId, userId)
                 .orElseThrow(() -> new FoodDiaryEntryNotFoundException(userId, entryId));
 
@@ -48,9 +54,9 @@ public class UpdateFoodDiaryEntryUseCase implements UpdateFoodDiaryEntryApi {
 
         updateFoodDiaryEntrySpi.updateFoodDiaryEntry(merged);
 
-        recalcDailyIntakeTotalsUseCase.recalcForUserAndDate(userId, eatenAt);
+        recalcDailyIntakeTotalsService.recalcForUserAndDate(userId, eatenAt);
         if (previousDate != null && !previousDate.equals(eatenAt)) {
-            recalcDailyIntakeTotalsUseCase.recalcForUserAndDate(userId, previousDate);
+            recalcDailyIntakeTotalsService.recalcForUserAndDate(userId, previousDate);
         }
     }
 

@@ -1,4 +1,4 @@
-package ru.calorai.foodDiary.useCase;
+package ru.calorai.common.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class RecalcDailyIntakeTotalsUseCase {
+public class RecalcDailyIntakeTotalsService {
 
     private final FindInFoodDiarySpi findInFoodDiarySpi;
     private final UpsertDailyIntakeTotalsSpi upsertDailyIntakeTotalsSpi;
