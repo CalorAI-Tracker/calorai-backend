@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface FoodDiaryDtoMapper {
 
-    @Mapping(target = "userId", ignore = true)
     CreateFoodDiaryEntryCommand toCommand(CreateFoodDiaryEntryRequest request);
 
     @Mapping(target = "date", source = "date")

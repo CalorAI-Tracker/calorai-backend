@@ -12,6 +12,9 @@ DROP COLUMN IF EXISTS kcal,
     DROP COLUMN IF EXISTS provider_code,
     DROP COLUMN IF EXISTS provider_food_id;
 
--- теперь food_catalog_id обязателен
+-- Сначала чистим старые данные
+TRUNCATE TABLE food_diary;
+
+-- Теперь можно ставить NOT NULL
 ALTER TABLE food_diary
     ALTER COLUMN food_catalog_id SET NOT NULL;

@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.calorai.security.port.in.CurrentUserDetails;
 import ru.calorai.security.port.in.CurrentUserExtractorApi;
 import ru.calorai.user.jpa.entity.UserEntity;
 
@@ -12,7 +13,7 @@ import java.util.Collection;
 
 @Data
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails, CurrentUserDetails {
     private Long id;
     private String email;
     private String password;
