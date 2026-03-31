@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.dailyNutririon.model.DailyMealComposition;
 import ru.calorai.dailyNutririon.port.in.FindDailyMealCompositionApi;
 import ru.calorai.dailyNutririon.port.out.FindMealCompositionSpi;
+import ru.calorai.security.port.in.CurrentUserExtractorApi;
 
 import java.time.LocalDate;
 
@@ -14,10 +15,11 @@ import java.time.LocalDate;
 public class FindDailyMealCompositionUseCase implements FindDailyMealCompositionApi {
 
     private final FindMealCompositionSpi findMealCompositionSpi;
+    private final CurrentUserExtractorApi currentUserExtractor;
 
     @Override
     @Transactional(readOnly = true)
-    public DailyMealComposition findByUserAndDate(Long userId, LocalDate date) {
-        return findMealCompositionSpi.findMealCompositionByUserAndDate(userId, date);
+    public DailyMealComposition findByUserAndDate(LocalDate date) {
+        return findMealCompositionSpi.findMealCompositionByUserAndDate(currentUserExtractor.getUser().getId(), date);
     }
 }

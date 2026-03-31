@@ -35,6 +35,7 @@ public interface FoodDiaryDtoMapper {
 
     default DailyMealCompositionDTO.MealProductDTO mealItemToProductDto(DailyMealComposition.MealItem item) {
         return DailyMealCompositionDTO.MealProductDTO.builder()
+                .id(item.getId())
                 .entryName(item.getEntryName())
                 .quantityGrams(item.getQuantityGrams())
                 .kcal(item.getMacros().getKcal())

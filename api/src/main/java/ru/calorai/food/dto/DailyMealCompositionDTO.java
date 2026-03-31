@@ -22,6 +22,7 @@ public class DailyMealCompositionDTO {
     @AllArgsConstructor
     @Builder(toBuilder = true)
     public static class MealProductDTO {
+        private Long id;
         private String entryName;
         private BigDecimal quantityGrams;
         private Integer kcal;

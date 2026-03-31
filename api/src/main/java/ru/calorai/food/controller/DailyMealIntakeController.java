@@ -39,14 +39,13 @@ public class DailyMealIntakeController {
                     - entriesCnt: количество записей в приёме пищи
                     """
     )
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<DailyMealIntakeDTO> getMeals(
-            @PathVariable("userId") Long userId,
             @RequestParam(value = "date", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         var d = date != null ? date : LocalDate.now();
-        var domain = api.findByUserAndDate(userId, d);
+        var domain = api.findByUserAndDate(d);
         return ResponseEntity.ok(mapper.toDto(domain));
     }
 }

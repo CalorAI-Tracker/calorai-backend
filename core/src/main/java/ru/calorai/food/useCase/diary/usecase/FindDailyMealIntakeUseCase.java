@@ -7,6 +7,7 @@ import ru.calorai.food.model.DailyMealIntake;
 import ru.calorai.food.port.in.diary.FindDailyMealIntakeApi;
 import ru.calorai.food.port.out.diary.FindDailyMealIntakeSpi;
 import ru.calorai.food.port.out.diary.FindInFoodDiarySpi;
+import ru.calorai.security.port.in.CurrentUserExtractorApi;
 
 import java.time.LocalDate;
 
@@ -16,9 +17,11 @@ public class FindDailyMealIntakeUseCase implements FindDailyMealIntakeApi {
 
     private final FindDailyMealIntakeSpi findDailyMealIntakeSpi;
 
+    private final CurrentUserExtractorApi currentUserExtractor;
+
     @Override
     @Transactional(readOnly = true)
-    public DailyMealIntake findByUserAndDate(Long userId, LocalDate date) {
-        return findDailyMealIntakeSpi.findByUserAndDate(userId, date);
+    public DailyMealIntake findByUserAndDate(LocalDate date) {
+        return findDailyMealIntakeSpi.findByUserAndDate(currentUserExtractor.getUser().getId(), date);
     }
 }

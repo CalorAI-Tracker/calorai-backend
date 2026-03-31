@@ -46,19 +46,27 @@ public class FoodDiaryController {
         return ResponseEntity.ok(createFoodDiaryEntryApi.createFoodDiaryEntry(command));
     }
 
+//    @Operation(summary = "Множественное создание записей о приёме пищи")
+//    @PostMapping("/entries/bulk")
+//    public ResponseEntity<Long> createBulkEntry(
+//            @RequestBody CreateFoodDiaryEntryRequest request
+//    ) {
+//        var command = dtoMapper.toCommand(request);
+//        return ResponseEntity.ok(createFoodDiaryEntryApi.createFoodDiaryEntry(command));
+//    }
+
     @Operation(summary = "Список продуктов по приёмам пищи за дату",
             description = "Группировка по приёмам: BREAKFAST, LUNCH, DINNER, SNACK. " +
                     "Каждый продукт с названием, весом и КБЖУ")
-    @GetMapping("/{userId}/composition")
+    @GetMapping("/composition")
     public ResponseEntity<DailyMealCompositionDTO> getMealComposition(
-            @PathVariable("userId") Long userId,
             @RequestParam(value = "date", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             @Parameter(description = "Дата (по умолчанию сегодня)")
             LocalDate date
     ) {
         var targetDate = date != null ? date : LocalDate.now();
-        var domain = findDailyMealCompositionApi.findByUserAndDate(userId, targetDate);
+        var domain = findDailyMealCompositionApi.findByUserAndDate(targetDate);
         var dto = dtoMapper.toDto(domain);
         return ResponseEntity.ok(dto);
     }

@@ -23,8 +23,9 @@ public class JdbcFindMealComposition implements FindMealCompositionSpi {
     public DailyMealComposition findMealCompositionByUserAndDate(Long userId, LocalDate date) {
         var items = jdbcClient.sql("""
                 SELECT
+                    fd.id                                                                     AS id,
                     fd.meal,
-                    fc.name                                                                    AS entry_name,
+                    fc.name                                                                   AS entry_name,
                     fd.quantity_grams,
                     ROUND((fc.kcal_per_100g    * fd.quantity_grams / 100))::int               AS kcal,
                     ROUND((fc.protein_per_100g * fd.quantity_grams / 100), 2)                 AS protein_g,
@@ -47,6 +48,7 @@ public class JdbcFindMealComposition implements FindMealCompositionSpi {
                             .build();
 
                     return new RawRow(
+                            rs.getLong("id"),
                             rs.getString("meal"),
                             rs.getString("entry_name"),
                             rs.getBigDecimal("quantity_grams"),
@@ -60,6 +62,7 @@ public class JdbcFindMealComposition implements FindMealCompositionSpi {
                         row -> EMeal.valueOf(row.meal()),
                         Collectors.mapping(
                                 row -> new DailyMealComposition.MealItem(
+                                        row.id(),
                                         row.entryName(),
                                         row.quantityGrams(),
                                         row.macros()
@@ -75,6 +78,7 @@ public class JdbcFindMealComposition implements FindMealCompositionSpi {
     }
 
     private record RawRow(
+            Long id,
             String meal,
             String entryName,
             java.math.BigDecimal quantityGrams,
