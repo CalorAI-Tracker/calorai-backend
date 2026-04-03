@@ -21,8 +21,7 @@ public class JdbcSearchFoodCatalog implements SearchFoodCatalogSpi {
                        created_by, kcal_per_100g, protein_per_100g, fat_per_100g,
                        carbs_per_100g, fiber_per_100g, sugar_per_100g, sodium_per_100g
                 FROM food_catalog
-                WHERE name  ILIKE '%' || :query || '%'
-                   OR brand ILIKE '%' || :query || '%'
+                """ + buildWhere(query) + """
                 ORDER BY name
                 LIMIT :limit OFFSET :offset
                 """)
@@ -53,11 +52,19 @@ public class JdbcSearchFoodCatalog implements SearchFoodCatalogSpi {
         return jdbcClient.sql("""
                 SELECT COUNT(*)
                 FROM food_catalog
-                WHERE name  ILIKE '%' || :query || '%'
-                   OR brand ILIKE '%' || :query || '%'
-                """)
+                """ + buildWhere(query))
                 .param("query", query)
                 .query(Long.class)
                 .single();
+    }
+
+    private String buildWhere(String query) {
+        if (query == null || query.isBlank()) {
+            return "";
+        }
+        return """
+                WHERE name  ILIKE '%' || :query || '%'
+                   OR brand ILIKE '%' || :query || '%'
+                """;
     }
 }

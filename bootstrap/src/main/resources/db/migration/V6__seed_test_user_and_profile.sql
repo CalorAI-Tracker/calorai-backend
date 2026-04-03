@@ -1,7 +1,7 @@
 -- 1. Создаём пользователя и получаем его id (если он новый)
 WITH u AS (
 INSERT INTO users (email, password_hash, created_at, email_verified, enabled, name, auth_provider)
-VALUES ('test@test.com', '12345', now(), true, true, 'Тест Тестович', 'local')
+VALUES ('test@test.com', md5(12345), now(), true, true, 'Тест Тестович', 'local')
 ON CONFLICT (email) DO NOTHING
     RETURNING id
     )
