@@ -40,4 +40,5 @@ create index if not exists idx_food_catalog_provider
 alter table food_diary
     add column if not exists food_catalog_id bigint,
     add constraint food_diary_catalog_fkey
-    foreign key (food_catalog_id) references food_catalog (id) on delete set null;
+    foreign key (food_catalog_id) references food_catalog (id) on delete set null
+        not valid;

@@ -20,19 +20,17 @@ public class SearchFoodCatalogUseCase implements SearchFoodCatalogApi {
 
     @Override
     public PageResult<FoodCatalogEntry> search(String query, int page, int size) {
-        if (query == null || query.isBlank()) {
-            return PageResult.empty(page, size);
-        }
-
-        var trimmed = query.trim();
-
-        var localResults = searchFoodCatalogSpi.search(trimmed, size, page * size);
-        var localTotal   = searchFoodCatalogSpi.countByQuery(trimmed);
+        var localResults = searchFoodCatalogSpi.search(query, size, page * size);
+        var localTotal   = searchFoodCatalogSpi.countByQuery(query);
 
         var externalResult = SearchExternalFoodProvider.ExternalSearchResult.empty();
-        try {
-            externalResult = searchExternalFoodProvider.search(trimmed, page, size);
-        } catch (Exception ignored) {}
+        if (query != null) {
+            try {
+                externalResult = searchExternalFoodProvider.search(query, page, size);
+            } catch (Exception ignored) {
+                // игнорируем ошибку от вешнего АПИ
+            }
+        }
 
         var merged = new ArrayList<FoodCatalogEntry>();
         merged.addAll(localResults);

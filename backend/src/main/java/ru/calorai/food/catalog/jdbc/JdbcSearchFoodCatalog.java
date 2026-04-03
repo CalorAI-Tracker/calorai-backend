@@ -16,6 +16,7 @@ public class JdbcSearchFoodCatalog implements SearchFoodCatalogSpi {
 
     @Override
     public List<FoodCatalogEntry> search(String query, int limit, int offset) {
+        query = (query == null) ? "" : query.trim();
         return jdbcClient.sql("""
                 SELECT id, name, brand, barcode, provider, provider_food_id,
                        created_by, kcal_per_100g, protein_per_100g, fat_per_100g,
