@@ -2,10 +2,10 @@ package ru.calorai.food.diary.jpa.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.calorai.food.exception.FoodDiaryEntryNotFoundException;
+import ru.calorai.food.diary.exception.FoodDiaryEntryNotFoundException;
 import ru.calorai.food.diary.jpa.repository.FoodDiaryRepository;
-import ru.calorai.food.model.FoodDiaryEntry;
-import ru.calorai.food.port.out.diary.UpdateFoodDiaryEntrySpi;
+import ru.calorai.food.diary.model.FoodDiaryEntry;
+import ru.calorai.food.diary.port.out.UpdateFoodDiaryEntrySpi;
 
 @Component
 @RequiredArgsConstructor

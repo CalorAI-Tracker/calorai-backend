@@ -2,7 +2,7 @@ package ru.calorai.food.searchClient.rest.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.calorai.food.model.FoodCatalogEntry;
+import ru.calorai.food.catalog.model.FoodCatalogEntry;
 import ru.calorai.food.searchClient.rest.model.OpenFoodFactsResponse;
 
 @Mapper(componentModel = "spring")

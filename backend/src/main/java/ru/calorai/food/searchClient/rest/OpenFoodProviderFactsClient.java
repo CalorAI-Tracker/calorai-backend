@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import ru.calorai.food.port.out.seacrhClient.SearchExternalFoodProvider;
+import ru.calorai.food.seacrh.SearchExternalFoodProvider;
 import ru.calorai.food.searchClient.rest.mapper.OpenFoodFactsMapper;
 import ru.calorai.food.searchClient.rest.model.OpenFoodFactsResponse;
 
@@ -13,7 +13,7 @@ import ru.calorai.food.searchClient.rest.model.OpenFoodFactsResponse;
 @RequiredArgsConstructor
 public class OpenFoodProviderFactsClient implements SearchExternalFoodProvider {
 
-    @Value("${external.openfoodfacts.base-url}")
+    @Value("${external.openfoodfacts.api.base-url}")
     private String openFoodFactsUrlApi;
 
     private final OpenFoodFactsMapper openFoodFactsMapper;

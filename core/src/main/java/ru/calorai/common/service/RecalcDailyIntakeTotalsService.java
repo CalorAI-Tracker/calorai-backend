@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.calorai.dailyNutririon.model.Macro;
 import ru.calorai.dailyNutririon.port.out.UpsertDailyIntakeTotalsSpi;
-import ru.calorai.food.model.FoodDiaryEntry;
-import ru.calorai.food.port.out.diary.FindFoodDiaryWithNutritionSpi;
-import ru.calorai.food.port.out.diary.FindInFoodDiarySpi;
+import ru.calorai.food.diary.port.out.FindFoodDiaryWithNutritionSpi;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

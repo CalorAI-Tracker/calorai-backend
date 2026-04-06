@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.calorai.food.catalog.jpa.mapper.FoodCatalogEntityMapper;
 import ru.calorai.food.catalog.jpa.repository.FoodCatalogRepository;
-import ru.calorai.food.model.FoodCatalogEntry;
-import ru.calorai.food.port.out.catalog.FindFoodCatalogEntrySpi;
-import ru.calorai.food.port.out.catalog.FindFoodCatalogEntryByIdSpi;
+import ru.calorai.food.catalog.model.FoodCatalogEntry;
+import ru.calorai.food.catalog.port.out.FindFoodCatalogEntrySpi;
+import ru.calorai.food.catalog.port.out.FindFoodCatalogEntryByIdSpi;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +17,6 @@ public class JpaFindFoodCatalogEntry implements FindFoodCatalogEntrySpi, FindFoo
 
     private final FoodCatalogRepository foodCatalogRepository;
     private final FoodCatalogEntityMapper foodCatalogEntityMapper;
-
-    @Override
-    public Optional<FoodCatalogEntry> findByProviderAndProviderFoodId(String provider, String providerFoodId) {
-        return foodCatalogRepository.findByProviderAndProviderFoodId(provider, providerFoodId)
-                .map(foodCatalogEntityMapper::toDomain);
-    }
 
     @Override
     public List<FoodCatalogEntry> search(String query, int limit) {

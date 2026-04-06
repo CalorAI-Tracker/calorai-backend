@@ -2,7 +2,7 @@ package ru.calorai.food.mapper;
 
 import org.mapstruct.Mapper;
 import ru.calorai.food.dto.FoodCatalogEntryDTO;
-import ru.calorai.food.model.FoodCatalogEntry;
+import ru.calorai.food.catalog.model.FoodCatalogEntry;
 
 import java.util.List;
 

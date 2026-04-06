@@ -5,8 +5,8 @@ import org.mapstruct.Mapping;
 import ru.calorai.dailyNutririon.model.DailyMealComposition;
 import ru.calorai.food.dto.DailyMealCompositionDTO;
 import ru.calorai.food.dto.request.CreateFoodDiaryEntryRequest;
-import ru.calorai.food.model.EMeal;
-import ru.calorai.food.model.cmd.CreateFoodDiaryEntryCommand;
+import ru.calorai.food.EMeal;
+import ru.calorai.food.diary.model.cmd.CreateFoodDiaryEntryCommand;
 
 import java.util.List;
 import java.util.Map;

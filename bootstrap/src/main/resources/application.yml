@@ -80,4 +80,9 @@ jwt:
 
 external:
   openfoodfacts:
-    base-url: https://world.openfoodfacts.org
+    api:
+      base-url: https://world.openfoodfacts.org
+  logmeal:
+    api:
+      base-url: https://api.logmeal.com/v2
+      token: ${LOG_MEAL_API_TOKEN}

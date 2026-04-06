@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.calorai.food.catalog.jpa.mapper.FoodCatalogEntityMapper;
 import ru.calorai.food.catalog.jpa.repository.FoodCatalogRepository;
-import ru.calorai.food.model.FoodCatalogEntry;
-import ru.calorai.food.port.out.catalog.SaveFoodCatalogEntrySpi;
+import ru.calorai.food.catalog.model.FoodCatalogEntry;
+import ru.calorai.food.catalog.port.out.SaveFoodCatalogEntrySpi;
 
 @Component
 @RequiredArgsConstructor

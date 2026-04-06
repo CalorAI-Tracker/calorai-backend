@@ -11,7 +11,7 @@ import ru.calorai.common.model.PageResult;
 import ru.calorai.food.dto.FoodCatalogEntryDTO;
 import ru.calorai.food.dto.request.CatalogSearchPageRequest;
 import ru.calorai.food.mapper.FoodCatalogDtoMapper;
-import ru.calorai.food.port.in.catalog.SearchFoodCatalogApi;
+import ru.calorai.food.catalog.port.in.SearchFoodCatalogApi;
 
 @RestController
 @RequestMapping("/food-catalog")

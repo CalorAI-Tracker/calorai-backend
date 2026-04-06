@@ -3,8 +3,8 @@ package ru.calorai.food.diary.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.calorai.food.model.FoodDiaryEntryWithNutrition;
-import ru.calorai.food.port.out.diary.FindFoodDiaryWithNutritionSpi;
+import ru.calorai.food.diary.model.FoodDiaryEntryWithNutrition;
+import ru.calorai.food.diary.port.out.FindFoodDiaryWithNutritionSpi;
 
 import java.time.LocalDate;
 import java.util.List;

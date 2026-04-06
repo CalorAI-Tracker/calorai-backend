@@ -3,7 +3,7 @@ package ru.calorai.food.diary.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-import ru.calorai.food.port.out.diary.DeleteFoodDiaryEntrySpi;
+import ru.calorai.food.diary.port.out.DeleteFoodDiaryEntrySpi;
 
 import java.util.Map;
 

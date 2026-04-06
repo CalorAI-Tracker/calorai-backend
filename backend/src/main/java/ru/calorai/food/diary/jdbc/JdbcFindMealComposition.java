@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.calorai.dailyNutririon.model.DailyMealComposition;
 import ru.calorai.dailyNutririon.model.Macro;
 import ru.calorai.dailyNutririon.port.out.FindMealCompositionSpi;
-import ru.calorai.food.model.EMeal;
+import ru.calorai.food.EMeal;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -3,8 +3,8 @@ package ru.calorai.food.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.calorai.food.dto.DailyMealIntakeDTO;
-import ru.calorai.food.model.DailyMealIntake;
-import ru.calorai.food.model.MealIntake;
+import ru.calorai.food.diary.model.DailyMealIntake;
+import ru.calorai.food.diary.model.MealIntake;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

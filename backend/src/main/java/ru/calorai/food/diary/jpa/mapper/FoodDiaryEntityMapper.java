@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import ru.calorai.food.diary.jpa.entity.FoodDiaryEntity;
-import ru.calorai.food.model.FoodDiaryEntry;
+import ru.calorai.food.diary.model.FoodDiaryEntry;
 
 
 @Mapper(componentModel = "spring")

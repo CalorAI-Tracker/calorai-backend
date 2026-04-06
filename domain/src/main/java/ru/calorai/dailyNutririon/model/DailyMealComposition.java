@@ -1,7 +1,7 @@
 package ru.calorai.dailyNutririon.model;
 
 import lombok.*;
-import ru.calorai.food.model.EMeal;
+import ru.calorai.food.EMeal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

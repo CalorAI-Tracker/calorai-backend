@@ -13,10 +13,10 @@ import ru.calorai.food.dto.DailyMealCompositionDTO;
 import ru.calorai.food.dto.request.CreateFoodDiaryEntryRequest;
 import ru.calorai.food.dto.request.UpdateFoodDiaryEntryRequest;
 import ru.calorai.food.mapper.FoodDiaryDtoMapper;
-import ru.calorai.food.model.cmd.UpdateFoodDiaryEntryCommand;
-import ru.calorai.food.port.in.diary.CreateFoodDiaryEntryApi;
-import ru.calorai.food.port.in.diary.DeleteFoodDiaryEntryApi;
-import ru.calorai.food.port.in.diary.UpdateFoodDiaryEntryApi;
+import ru.calorai.food.diary.model.cmd.UpdateFoodDiaryEntryCommand;
+import ru.calorai.food.diary.port.in.CreateFoodDiaryEntryApi;
+import ru.calorai.food.diary.port.in.DeleteFoodDiaryEntryApi;
+import ru.calorai.food.diary.port.in.UpdateFoodDiaryEntryApi;
 
 import java.time.LocalDate;
 

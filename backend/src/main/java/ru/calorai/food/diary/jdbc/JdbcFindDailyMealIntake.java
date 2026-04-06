@@ -3,9 +3,9 @@ package ru.calorai.food.diary.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.calorai.food.model.DailyMealIntake;
-import ru.calorai.food.model.MealIntake;
-import ru.calorai.food.port.out.diary.FindDailyMealIntakeSpi;
+import ru.calorai.food.diary.model.DailyMealIntake;
+import ru.calorai.food.diary.model.MealIntake;
+import ru.calorai.food.diary.port.out.FindDailyMealIntakeSpi;
 
 import java.time.LocalDate;
 

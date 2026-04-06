@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.calorai.food.dto.DailyMealIntakeDTO;
 import ru.calorai.food.mapper.DailyMealIntakeDtoMapper;
-import ru.calorai.food.port.in.diary.FindDailyMealIntakeApi;
+import ru.calorai.food.diary.port.in.FindDailyMealIntakeApi;
 
 import java.time.LocalDate;
 
