@@ -36,16 +36,13 @@ public class DailyNutritionRestController {
             summary = "Получить КБЖУ на дату",
             description = "Возвращает план, факт, остаток и проценты выполнения"
     )
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<DailyNutritionDTO> getDaily(
-            @PathVariable("userId") Long userId,
             @Parameter(description = "Дата в формате ISO", example = "2025-11-05")
             @RequestParam(value = "date", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         var d = (date != null) ? date : LocalDate.now();
-        return ResponseEntity.ok(mapper.toDto(
-                findDailyNutritionApi.findByUserAndDate(userId, d, true)
-        ));
+        return ResponseEntity.ok(mapper.toDto(findDailyNutritionApi.findByUserAndDate(d, true)));
     }
 }

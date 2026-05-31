@@ -19,13 +19,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.calorai.dto.request.LoginRequest;
-import ru.calorai.dto.request.LogoutRequest;
-import ru.calorai.dto.request.RefreshRequest;
-import ru.calorai.dto.request.SignUpRequest;
+import ru.calorai.dto.request.*;
 import ru.calorai.dto.response.TokenResponse;
 import ru.calorai.jwToken.JwtProperties;
 import ru.calorai.model.AuthProvider;
+import ru.calorai.service.GoogleAuthService;
 import ru.calorai.service.JwtService;
 import ru.calorai.service.RefreshTokenService;
 import ru.calorai.user.jpa.entity.UserEntity;
@@ -49,6 +47,7 @@ public class AuthController {
 
     @Autowired JwtProperties jwtProperties;
     @Autowired RefreshTokenService refreshTokens;
+    @Autowired GoogleAuthService googleAuthService;
 
     @Autowired UserRepository users;
     @Autowired RoleRepository roles;
@@ -174,6 +173,19 @@ public class AuthController {
         if (jwt.validateRefreshToken(refresh)) {
             refreshTokens.revokeByJti(jwt.extractJtiFromRefresh(refresh));
         }
+    }
+
+    @PostMapping("/auth/google")
+    public TokenResponse googleAuth(
+            @RequestBody GoogleAuthRequest req,
+            HttpServletRequest http
+    ) {
+        return googleAuthService.authenticate(
+                req.idToken(),
+                req.deviceId(),
+                http.getHeader("User-Agent"),
+                http.getRemoteAddr()
+        );
     }
 
     /*

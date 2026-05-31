@@ -10,6 +10,7 @@ import ru.calorai.dailyNutririon.model.DailyNutrition;
 import ru.calorai.dailyNutririon.port.in.FindDailyNutritionApi;
 import ru.calorai.dailyNutririon.port.in.RecalcTodayTargetsApi;
 import ru.calorai.dailyNutririon.port.out.FindDailyNutritionSpi;
+import ru.calorai.security.port.in.CurrentUserExtractorApi;
 
 import java.time.LocalDate;
 
@@ -18,12 +19,14 @@ import java.time.LocalDate;
 public class FindDailyNutritionUseCase implements FindDailyNutritionApi {
 
     private final FindDailyNutritionSpi findDailyNutritionSpi;
-
     private final RecalcTodayTargetsApi recalcTodayTargetsApi;
+
+    private final CurrentUserExtractorApi currentUserExtractor;
 
     @Override
     @Transactional
-    public DailyNutrition findByUserAndDate(Long userId, LocalDate date, boolean ensureTodayTarget) {
+    public DailyNutrition findByUserAndDate(LocalDate date, boolean ensureTodayTarget) {
+        Long userId = currentUserExtractor.getUser().getId();
         var result = findDailyNutritionSpi.findByUserAndDate(userId, date);
         if (result.isPresent()) return result.get();
 

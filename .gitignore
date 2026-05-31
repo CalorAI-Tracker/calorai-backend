@@ -90,3 +90,5 @@ Desktop.ini
 **/.idea/**/shelf/
 
 application.yml
+
+.env

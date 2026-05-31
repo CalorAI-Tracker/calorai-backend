@@ -1,7 +1,7 @@
 package ru.calorai.dailyNutririon.model;
 
 import lombok.*;
-import ru.calorai.foodDiary.model.EMeal;
+import ru.calorai.food.EMeal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,15 +15,16 @@ import java.util.Map;
 @Builder(toBuilder = true)
 public class DailyMealComposition {
     private LocalDate date;
-    private Map<EMeal, List<MealItem>> meals; // "BREAKFAST" -> [продукты]
+    private Map<EMeal, List<MealItem>> meals;
 
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MealItem {
-        private String entryName;        // "креветки"
-        private BigDecimal quantityGrams; // 100
-        private Macro macros;            // КБЖУ через Macro [file:43]
+        private Long id;
+        private String entryName;
+        private BigDecimal quantityGrams;
+        private Macro macros;
     }
 }

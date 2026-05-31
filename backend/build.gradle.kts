@@ -6,6 +6,7 @@ dependencies {
     implementation(libs.spring.boot.jpa)
     implementation(libs.spring.boot.jdbc)
     implementation(libs.spring.boot.validation)
+    implementation(libs.spring.boot.web)
 
     // JDBC driver
     implementation(libs.postgresql.driver)
@@ -21,4 +22,7 @@ dependencies {
     // Jooq
     implementation(libs.jooq)
     implementation(libs.jooq.codegen)
+
+    // REST
+    implementation(libs.jackson.datatype.jsr310)
 }

@@ -9,6 +9,7 @@ dependencies {
     // Spring Security
     implementation(libs.spring.boot.security)
     implementation(libs.spring.security.oauth2.client)
+    implementation(libs.google.api.client)
 
     // Spring
     implementation(libs.spring.boot.web)
