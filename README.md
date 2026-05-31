@@ -30,15 +30,7 @@
    Use Gradle from: gradle-wrapper
    Working directory: <путь до корня проекта>
    ```
-3. Нажми на **Environment variables** и добавь переменные окружения:
-   ```
-   SPRING_PROFILES_ACTIVE=dev;
-   GOOGLE_CLIENT_ID=xxx.apps.googleusercontent.com;
-   GOOGLE_CLIENT_SECRET=xxxx;
-   JWT_SECRET=change_me_long_random;
-   ```
-   > Эти переменные нужны для запуска приложения и авторизации через Google OAuth2.
-4. Нажми **Apply → Run** ✅
+3. Нажми **Apply → Run** ✅
 
 ---
 
@@ -61,23 +53,22 @@ http://localhost:8080/api/config/health
 
 ---
 
-## 4. Альтернатива — запуск из терминала
+## 4. Альтернатива — поднятие docker контейнера
 
-```bash
-# Linux / macOS
-SPRING_PROFILES_ACTIVE=dev \
-GOOGLE_CLIENT_ID=xxx.apps.googleusercontent.com \
-GOOGLE_CLIENT_SECRET=xxxx \
-JWT_SECRET=change_me_long_random \
-./gradlew :config:bootRun
-
-# Windows PowerShell
-$env:SPRING_PROFILES_ACTIVE="dev"
-$env:GOOGLE_CLIENT_ID="xxx.apps.googleusercontent.com"
-$env:GOOGLE_CLIENT_SECRET="xxxx"
-$env:JWT_SECRET="change_me_long_random"
-.\gradlew :config:bootRun
+Создать .env файлd в корне проекта с необходимыми токенами (Google Secret, LogMeal API token). Пример:
 ```
+GOOGLE_CLIENT_ID=SECRET_KEY12233
+GOOGLE_CLIENT_SECRET=CLIENT_SECRET_KEY12233
+LOG_MEAL_API_TOKEN=API_TOKE_112121
+```
+
+Запустить докер:
+
+```docker compose down```
+
+```docker volume rm calorai-backend_calorai_data```
+
+```docker compose up --build```
 
 После этого приложение будет доступно по адресу  
 👉 [http://localhost:8080/api/config/health](http://localhost:8080/api/config/health)
